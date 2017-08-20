@@ -91,7 +91,7 @@ if ( post_password_required() ) {
 
         <div class="submitdiv clearfix">
         	<div class="emoji_box">
-   				<img src="http://www.wooools.com/wp-content/themes/YukiMoe%20Theme/static/emoji/1f610.png" width="34px" height="34px"/>
+   				<img src="<?php echo yukimoe_static('emoji/1f610.png')?>" width="34px" height="34px"/>
                 <div>
 				<?php echo ym_get_wpsmiliestrans();?>
                 </div>

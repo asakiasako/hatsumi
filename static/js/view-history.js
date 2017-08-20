@@ -1,5 +1,5 @@
 // JavaScript Document
-ViewHistory = function() {
+var ViewHistory = function() {
 
 	this.config = {
 		limit: 10,
@@ -79,20 +79,10 @@ if(typeof localStorage !== 'undefined' && typeof JSON !== 'undefined') {
 /* <![CDATA[ */
 var wrap = document.getElementById('view-history');
 
-// 如果 ViewHistory 的实例存在，并且外层节点存在，则可显示历史浏览记录
-if(viewHistory && wrap) {
-    // 获取浏览记录
-    var histories = viewHistory.getHistories();
-	
-	//转换时间格式
-	var minute = 1000 * 60;
-	var hour = minute * 60;
-	var day = hour * 24;
-	var halfamonth = day * 15;
-	var month = day * 30;
 function getDateDiff(dateTimeStamp){
 	var now = new Date().getTime();
 	var diffValue = now - dateTimeStamp;
+	var result;
 	if(diffValue < 0){
 	 result="刚刚浏览过";
 	 }
@@ -116,17 +106,27 @@ function getDateDiff(dateTimeStamp){
 	 else if(minC>=1){
 	 result=parseInt(minC) +"分钟前浏览过";
 	 }else
-	 result="刚刚浏览过";
+	 {result="刚刚浏览过";}
 	return result;
 	}
+// 如果 ViewHistory 的实例存在，并且外层节点存在，则可显示历史浏览记录
+if(viewHistory && wrap) {
+    // 获取浏览记录
+    var histories = viewHistory.getHistories();
+	
+	//转换时间格式
+	var minute = 1000 * 60;
+	var hour = minute * 60;
+	var day = hour * 24;
+	var month = day * 30;
 
     // 组装列表
     var list = document.createElement('ul');
     if(histories && histories.length > 0) {
         for(var i=histories.length-1; i>=0; i--) {
-            var history = histories[i];
+            var historyitem = histories[i];
             var item = document.createElement('li');
-            item.innerHTML = '<p class="side-art">'+history.title+'</p><p class="side-meta">'+getDateDiff(history.time)+'</p>';
+            item.innerHTML = '<p class="side-art">'+historyitem.title+'</p><p class="side-meta">'+getDateDiff(historyitem.time)+'</p>';
             list.appendChild(item);
         }
 

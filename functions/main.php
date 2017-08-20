@@ -18,7 +18,7 @@ wp_register_script( 'jquery', ( 'http://cdn.staticfile.org/jquery/2.1.4/jquery.m
 add_action('wp_enqueue_scripts', 'yukimoe_scripts');
 function yukimoe_scripts(){
     global $wp_styles, $wp_scripts;
-    wp_enqueue_style('style', get_bloginfo('stylesheet_url'));
+    wp_enqueue_style('style', get_bloginfo('stylesheet_url'),array(),YUKIMOE_VERSION );
 
     /**
      * Load our IE specific stylesheet for a range of newer versions:
@@ -38,19 +38,19 @@ function yukimoe_scripts(){
         wp_enqueue_script( 'jquery' );
 		
         if( is_home() ){
-		wp_enqueue_script( 'index', home_url('/min/').'?b=wp-content/themes/YukiMoe%20Theme/static/js&f=fastclick.js,index.js,slider-min.js,view-history.js',array('jquery'), YUKIMOE_VERSION, false);
+		wp_enqueue_script( 'index', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,index.js,slider-min.js,view-history.js,bdpush.js',array('jquery'), YUKIMOE_VERSION, true);
         }
 		
 		if( is_archive() || is_search() ) {
-		wp_enqueue_script( 'archive', home_url('/min/').'?b=wp-content/themes/YukiMoe%20Theme/static/js&f=fastclick.js,index.js,view-history.js',array('jquery'), YUKIMOE_VERSION, false);
+		wp_enqueue_script( 'archive', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,index.js,view-history.js',array('jquery'), YUKIMOE_VERSION, true);
         }
 
         if( is_page() ){
-			wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/YukiMoe%20Theme/static/js&f=fastclick.js,single.js',array('jquery'), YUKIMOE_VERSION, true);
+		wp_enqueue_script( 'page', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,single.js',array('jquery'), YUKIMOE_VERSION, true);
 		}
 		
 		if( is_single() ){
-			wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/YukiMoe%20Theme/static/js&f=fastclick.js,single.js,view-history.js,single-add.js',array('jquery'), YUKIMOE_VERSION, true);
+		wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,single.js,view-history.js,single-add.js,bdpush.js',array('jquery'), YUKIMOE_VERSION, true);
 		}
 
     }
@@ -721,7 +721,7 @@ function yukimoe_sincopy(){
                 echo '来源：'."<a href='$fref' target='blank' rel='nofllow'>$from</a>";}
                 else echo '来源：'."原创";
         ?>
-            <p>声明：本站原创文章采用<a title="署名-非商业性使用-相同方式共享 3.0 中国大陆" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank" rel="external nofollow">&nbsp;BY-NC-SA&nbsp;</a>创作共用协议，转载时请以链接形式标明本文地址；非原创（转载）文章版权归原作者所有。&nbsp;<a title="版权声明" href="<?php echo YUKIMOE_THEMEROOT;?>/copyright/">©查看版权声明</a></p>
+            <p>声明：本站原创文章采用<a title="署名-非商业性使用-相同方式共享 3.0 中国大陆" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" target="_blank" rel="external nofollow">&nbsp;BY-NC-SA&nbsp;</a>创作共用协议，转载时请以链接形式标明本文地址；非原创（转载）文章版权归原作者所有。&nbsp;<a title="版权声明" href="<?php home_url()?>/copyright/">©查看版权声明</a></p>
         </div>
         <?php }
 		else return;
