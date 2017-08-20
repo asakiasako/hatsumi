@@ -4,7 +4,7 @@ Theme URI:http://furafura.moe
 Author:夏娜酱拌饭
 Author URI:http://furafura.moe
 Description:它们过于洁白过于接近春天
-Version:0.9.0
+Version:0.9.4
 */
 * {
 	-webkit-box-sizing: border-box;
@@ -227,13 +227,17 @@ html.ac-no-scroll #header.noBlur, html.ac-no-scroll #main.noBlur {
 	background: #fff;
 	border-bottom: 1px solid rgba(0,0,0,0.05);
 	width: 100%;
-	position: relative;
+	position: fixed;
 	z-index: 1000;
+	top: 0;
+	transition: top .4s;
+	-moz-transition: top .4s;
+	-webkit-transition: top .4s;
+	-o-transition: top .4s;
 }
-body.home #header {
-	background: rgba(255, 255, 255, .88);
-	-webkit-backdrop-filter: saturate(180%) blur(5px);
-	backdrop-filter: saturate(180%) blur(5px);
+
+#header.hd_hide.hd_down {
+	top:-80px;
 }
 
 html.ac-no-scroll #header {
@@ -478,7 +482,9 @@ div.search-overlay {
 }
 #main {
 	width: auto;
+	padding-top: 64px;
 }
+
 #content {
 	margin-right: 400px;
 	background: #fff;
@@ -1182,9 +1188,16 @@ body.page div.post-body {
 	color: rgba(0,0,0,0.8);
 	border-bottom: 1px dashed rgba(0,0,0,0.3);
 }
-#main #content .postcont a:hover {
+
+#main #content #comments p a {
+	color: rgba(0,0,0,0.7);
+	border-bottom: 1px dashed rgba(0,0,0,0.3);
+}
+
+#main #content .postcont a:hover, #main #content #comments p a:hover {
 	border-bottom: 1px solid rgba(0,0,0,0.3);
 }
+
 body.single #main aside#sidebar-area {
 	display: none;
 }
@@ -2225,6 +2238,9 @@ body.single div.post-body, body.page div.post-body, #single-title, section.singl
 	width: 100%;
 	padding: 0 16px;
 }
+#ajax-load-list {
+	margin: 50px 0 10px;
+}
 section.singleinfo {
 	margin-bottom: 32px;
 }
@@ -2266,6 +2282,9 @@ div.head-img.home>div {
 	margin-left: -60px;
 	background: transparent;
 	max-width: 600px;
+}
+#main {
+	padding-top: 56px;	
 }
 div.mob-info {
 	display: block;
@@ -2386,19 +2405,11 @@ html.s-fadeIn, html.s-fadeIn body {
 	overflow: hidden!important;
 	height: 100%!important;
 }
-html.s-fadeIn body {
-	padding-top: 57px;
-}
 html.s-fadeIn #header {
 	position: fixed !important;
 	top: 0;
 }
-body.home #header {
-	position: relative;
-	background: #FFFFFF;
-	-webkit-backdrop-filter: none;
-	backdrop-filter: none;
-}
+
 }
 
 @media screen and (max-width:480px) {

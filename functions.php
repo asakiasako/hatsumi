@@ -10,7 +10,7 @@
  
  //函数引用常量定义
  define('HATSUMI_THEMEROOT', get_bloginfo('template_directory'));
- define('HATSUMI_VERSION', '0.9.0');
+ define('HATSUMI_VERSION', '0.9.4');
  
 //主题设置项函数声明
 	define( 'OPTIONS_FRAMEWORK_DIRECTORY', get_template_directory_uri() . '/inc/' );

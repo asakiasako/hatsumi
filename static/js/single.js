@@ -67,7 +67,7 @@ $(function() {
 		logo: 'OωO表情',
 		container: document.getElementsByClassName('OwO')[0],
 		target: document.getElementById('comment'),
-		api: 'http://furafura.moe/wp-content/themes/Hatsumi/static/js/OwO.json',
+		api: 'http://furafura.moe/wp-content/themes/Hatsumi theme/static/js/OwO.json',
 		position: 'down',
 		width: '100%',
 		maxHeight: '250px'

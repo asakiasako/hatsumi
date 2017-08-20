@@ -29,6 +29,20 @@ $(function() {
 			$('html').removeClass('s-fadeIn');
 		}
 	});
+	//导航栏自动隐藏
+	var hdimg=280;
+	var h_hide=180;
+	var s_before = $(document).scrollTop();
+	$(window).scroll(function(){
+		var htm_sc = $(document).scrollTop();
+		if (htm_sc > h_hide) $('#header').addClass('hd_hide');
+		else $('#header').removeClass('hd_hide');
+		if (htm_sc > s_before) $('#header').addClass('hd_down');
+		else if (htm_sc < hdimg) $('#header').removeClass('hd_down');
+		s_before = htm_sc;
+	});
+
+	
 		
 });
 
