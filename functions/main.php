@@ -32,20 +32,20 @@ function hatsumi_scripts(){
         wp_enqueue_script( 'jquery' );
 		
         if( is_home() ){
-		wp_enqueue_script( 'index', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,index.js,view-history.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_script( 'index', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,index.js,view-history.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
         }
 		
 		if( is_archive() || is_search() ) {
-		wp_enqueue_script( 'archive', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,index.js,view-history.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_script( 'archive', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,index.js,view-history.js',array('jquery'), HATSUMI_VERSION, true);
         }
 
         if( is_page() ){
-		wp_enqueue_script( 'page', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,single.js,OwO.min.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_script( 'page', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,single.js,OwO.min.js',array('jquery'), HATSUMI_VERSION, true);
 		wp_enqueue_style('owo', hatsumi_static('css/OwO.min.css'),array(),HATSUMI_VERSION );
 		}
 		
 		if( is_single() ){
-		wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,single.js,view-history.js,single-add.js,OwO.min.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,single.js,view-history.js,single-add.js,OwO.min.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
 		wp_enqueue_style('owo', hatsumi_static('css/OwO.min.css'),array(),HATSUMI_VERSION );
 		}
 
@@ -208,12 +208,22 @@ remove_filter('the_content_feed',	'wp_staticize_emoji');
 remove_filter('comment_text_rss',	'wp_staticize_emoji');
 remove_filter('wp_mail',		'wp_staticize_emoji_for_email');
 
+/*
 //gravatar换到多说源
 add_filter( 'get_avatar', 'duoshuo_avatar', 10, 3 );
 function duoshuo_avatar($avatar) {
     $avatar = str_replace(array("www.gravatar.com","0.gravatar.com","1.gravatar.com","2.gravatar.com"), "gravatar.duoshuo.com", $avatar);
     return $avatar;
 }
+*/
+
+//gravatar替换为https
+function get_ssl_avatar($avatar) {
+   $avatar = preg_replace('/.*\/avatar\/(.*)\?s=([\d]+)&.*/','<img src="https://secure.gravatar.com/avatar/$1?s=$2" class="avatar avatar-$2" >',$avatar);
+   return $avatar;
+}
+add_filter('get_avatar', 'get_ssl_avatar');
+
 //将静态文件定向到CDN
 $ali_cdn = hatsumi_get_option( 'ali_cdn' );
 if ( (!is_admin()) && $ali_cdn ) {
