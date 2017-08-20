@@ -1,34 +1,34 @@
 <?php
 
     //反垃圾评论
-	function yukimoe_antijunk( $incoming_comment ) {
-		$max_lenth = 140 ;
+	function hatsumi_antijunk( $incoming_comment ) {
+		$max_lenth = 20 ;
 		$http = '/href=|url=|rel="nofollow"|<\/a>/u'; 
-		$pattern = '/[一-龥]/u';
+		$pattern = '/[一-龥]|furafura/u';
 		$jpattern ='/[ぁ-ん]+|[ァ-ヴ]+/u';
-		$anti_open = yukimoe_get_option('anti-junk') ;
+		$anti_open = hatsumi_get_option('anti-junk') ;
 		if($anti_open) {
 			if(preg_match($http, $incoming_comment['comment_content'])) {
-				yukimoe_ajax_error( "为防止垃圾评论，不能使用文字超链接，请使用明文链接。" );
+				hatsumi_ajax_error( "为防止垃圾评论，不能使用文字超链接，请使用明文链接。" );
 				return;
 			}
 			else if(strlen(trim($incoming_comment['comment_content']))>$max_lenth) {
 				if(!preg_match($pattern, $incoming_comment['comment_content'])) {
-					yukimoe_ajax_error( "为防止垃圾评论，超过140个字符的评论，必须包含中文。" );
+					hatsumi_ajax_error( "为防止垃圾评论，超过20个字符的评论，必须包含中文。" );
 					return;
 				}
 				else if(preg_match($jpattern, $incoming_comment['comment_content'])) {
-					yukimoe_ajax_error( "为防止垃圾评论，超过140个字符的评论，不能包含日文字符。" );
+					hatsumi_ajax_error( "为防止垃圾评论，超过20个字符的评论，不能包含日文字符。" );
 					return;
 				}
 			}
 		}
 		return( $incoming_comment );
 	}
-	add_filter('preprocess_comment', 'yukimoe_antijunk');
+	add_filter('preprocess_comment', 'hatsumi_antijunk');
 
 	//评论回复邮件提醒
-	function yukimoe_comment_mail($comment_id) {
+	function hatsumi_comment_mail($comment_id) {
 	    $comment = get_comment($comment_id);
 	    $parent_id = $comment->comment_parent ? $comment->comment_parent : '';
 	    $spam_confirmed = $comment->comment_approved;
@@ -56,11 +56,11 @@
 	    }
 	}
 	
-	if ( yukimoe_get_option( 'send_mail' ) )  add_action('comment_post', 'yukimoe_comment_mail');
+	if ( hatsumi_get_option( 'send_mail' ) )  add_action('comment_post', 'hatsumi_comment_mail');
 	
 	// 清除评论里的Track计数
-	add_filter('get_comments_number', 'yukimoe_comment_count', 0);
-	function yukimoe_comment_count( $count ) {
+	add_filter('get_comments_number', 'hatsumi_comment_count', 0);
+	function hatsumi_comment_count( $count ) {
 		if ( ! is_admin() ) {
 			global $id;
 			$comments_by_type = &separate_comments(get_comments('status=approve&post_id=' . $id));
@@ -71,7 +71,7 @@
 	}
 	
 	//获取已经批准的评论数量
-	function yukimoe_count_comments($post_id=false,$echo=false){
+	function hatsumi_count_comments($post_id=false,$echo=false){
 		global $post;
 		if(!$post_id) $post_id=$post->ID;
 		$comments_count = wp_count_comments( $post_id );
@@ -80,7 +80,7 @@
 	}
 	
 	//回调函数
-	function yukimoe_commentlist($comment, $args, $depth) {
+	function hatsumi_commentlist($comment, $args, $depth) {
 		$GLOBALS['comment'] = $comment;
 		extract($args, EXTR_SKIP);
 
@@ -98,12 +98,16 @@
 		<?php endif; ?>
         <div class="comment-info clearfix">
             <div class="comment-author vcard">
-            <?php if ($args['avatar_size'] != 0) {
-				if ($comment->user_id[0]) echo um_get_avatar( $comment->user_id[0] , $args['avatar_size'], um_get_avatar_type($comment->user_id[0]));
+            <?php 
+			if ($args['avatar_size'] != 0) {
+				if ($comment->user_id) echo um_get_avatar( $comment->user_id , $args['avatar_size'], um_get_avatar_type($comment->user_id));
 				else echo get_avatar( $comment, $args['avatar_size'] ); 
 			}
 			?>
-            <?php printf(__('<cite>%s</cite>'), get_comment_author_link()) ?>
+            <?php 
+			if ($comment->user_id):?> <a href="<?php the_author_meta( 'user_url', $comment->user_id );?>" rel="external nofollow" class="url"><?php the_author_meta( 'display_name', $comment->user_id );?></a>
+			<?php else: printf(__('<cite>%s</cite>'), get_comment_author_link()); 
+			endif;?>
             </div>
             <div class="comment-meta commentmetadata">
                 <?php
@@ -127,7 +131,7 @@
 		
 		
 //显示父评论内容
-function yukimoe_add_comment_parent( $comment_text, $comment = '') {
+function hatsumi_add_comment_parent( $comment_text, $comment = '') {
   if( $comment->comment_parent > 0) {
 	$comment_prt_id = $comment->comment_parent;
 	$comment_prt = get_comment( $comment_prt_id );
@@ -138,4 +142,4 @@ function yukimoe_add_comment_parent( $comment_text, $comment = '') {
   }
   return $comment_text;
 }
-add_filter( 'comment_text' , 'yukimoe_add_comment_parent', 20, 2);
+add_filter( 'comment_text' , 'hatsumi_add_comment_parent', 20, 2);

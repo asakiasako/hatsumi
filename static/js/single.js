@@ -62,50 +62,18 @@ $(function() {
 	   END
 	******************/	
 	
-	//添加评论表情支持
-	jQuery(document).on("click", ".add-smily",
-		function() {
-				var myField;
-				tag = ' ' + jQuery(this).data("smilies") + ' ';
-				if (document.getElementById('comment') && document.getElementById('comment').type == 'textarea') {
-					myField = document.getElementById('comment');
-				} else {
-					return false;
-				}
-				if (document.selection) {
-					myField.focus();
-					sel = document.selection.createRange();
-					sel.text = tag;
-					myField.focus();
-				}
-				else if (myField.selectionStart || myField.selectionStart == '0') {
-					var startPos = myField.selectionStart;
-					var endPos = myField.selectionEnd;
-					var cursorPos = endPos;
-					myField.value = myField.value.substring(0, startPos)
-								  + tag
-								  + myField.value.substring(endPos, myField.value.length);
-					cursorPos += tag.length;
-					myField.focus();
-					myField.selectionStart = cursorPos;
-					myField.selectionEnd = cursorPos;
-				}
-				else {
-					myField.value += tag;
-					myField.focus();
-				}
-			return false;
-		});		
-	//表情box展开，关闭
-		$(".emoji_box img").on("click", function(e){
-			$('.emoji_box div').fadeIn();
-		});
-		$(document).on("click",function(e){
-			if($(e.target).parents(".emoji_box").length == 0)
-			{
-				$('.emoji_box div').fadeOut();
-			}
-		});
+	/**添加表情功能**/
+	var OwO_demo = new OwO({
+		logo: 'OωO表情',
+		container: document.getElementsByClassName('OwO')[0],
+		target: document.getElementById('comment'),
+		api: 'http://furafura.moe/wp-content/themes/Hatsumi/static/js/OwO.json',
+		position: 'down',
+		width: '100%',
+		maxHeight: '250px'
+	});
+
+
 
 
 

@@ -4,7 +4,7 @@
  */
 function optionsframework_option_name() {
 	// Change this to use your theme slug
-	return 'yukimoe-options';
+	return 'hatsumi-options';
 }
 
 /**
@@ -132,20 +132,6 @@ function optionsframework_options() {
 	);	
 	
 	$options[] = array(
-		'name' => '横幅标题',
-		'id' => 'headimgtitle',
-		'placeholder' => '如：初・はつ',
-		'type' => 'text'
-	);
-	
-	$options[] = array(
-		'name' => '横幅文字',
-		'id' => 'headimgdisc',
-		'placeholder' => '如：初・はつ',
-		'type' => 'text'
-	);
-	
-	$options[] = array(
 		'name' => __( 'LOGO' ),
 		'desc' => __( '请上传一张图片作为网站LOGO' ),
 		'id' => 'logo',
@@ -173,29 +159,6 @@ function optionsframework_options() {
 	$options[] = array(
 		'name' => '高级设置',
 		'type' => 'heading'
-	);
-
-	$options[] = array(
-		'name' => '幻灯片(相册文章)',
-		'desc' => '勾选以启用幻灯片',
-		'id' => 'slider_img_art',
-		'std' => '1',
-		'type' => 'checkbox'
-	);
-
-	$options[] = array(
-		'desc' => '输入启用幻灯片的文章id，用"英文逗号"分割',
-		'id' => 'slider_img_art-content',
-		'placeholder' => '例如：2,18,31',
-		'type' => 'text'
-	);
-
-	$options[] = array(
-		'name' => '统计代码',
-		'desc' => '请输入统计代码（保存时会过滤多余的javascript标签）',
-		'id' => 'analysis',
-		'placeholder' => '如需统计网站数据，请将统计工具（如CNZZ）的javascript代码粘贴在此处。添加的统计工具不会在网页中显示出来。',
-		'type' => 'textarea'
 	);
 
 	$options[] = array(
@@ -228,6 +191,14 @@ function optionsframework_options() {
 		'desc' => '勾选以启用。',
 		'id' => 'send_mail',
 		'type' => 'checkbox'
+	);
+	
+	$options[] = array(
+		'name' => '统计代码',
+		'desc' => '请输入统计代码（保存时会过滤多余的javascript标签）',
+		'id' => 'analysis',
+		'placeholder' => '如需统计网站数据，请将统计工具（如CNZZ）的javascript代码粘贴在此处。添加的统计工具不会在网页中显示出来。',
+		'type' => 'textarea'
 	);
 	
 		$options[] = array(
@@ -263,7 +234,7 @@ function optionsframework_options() {
 		$options[] = array(
 		'desc' => '请输入你在阿里云oss中设置的bucket名称',
 		'id' => 'oss_bucket',
-		'placeholder' => '例如：yukimoe',
+		'placeholder' => '例如：a-bucket',
 		'type' => 'text'
 	);
 	

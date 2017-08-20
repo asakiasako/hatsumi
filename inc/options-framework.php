@@ -65,8 +65,8 @@ endif;
  *
  * Not in a class to support backwards compatibility in themes.
  */
-if ( ! function_exists( 'yukimoe_get_option' ) ) :
-function yukimoe_get_option( $name, $default = false ) {
+if ( ! function_exists( 'hatsumi_get_option' ) ) :
+function hatsumi_get_option( $name, $default = false ) {
 
 	$option_name = '';
 

@@ -4,9 +4,9 @@ if (! class_exists(Alibaba))
     require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'SDK/alioss.class.php');
 	
 
-$oss_options = yukimoe_oss_options();
+$oss_options = hatsumi_oss_options();
 
-function yukimoe_oss_options(){
+function hatsumi_oss_options(){
 	$options  = array(
         'bucket'			=> 	"",
         'access_key'  	=> 	"",
@@ -17,13 +17,13 @@ function yukimoe_oss_options(){
         'img_url'		=> 	""
     );//初始化oss设置数组；
 	
-	$options['bucket'] 		= 	trim(stripslashes(yukimoe_get_option('oss_bucket')));
-	$options['access_key']	= 	trim(stripslashes(yukimoe_get_option('oss_access_key')));
-	$options['secret_key'] 	= 	trim(stripslashes(yukimoe_get_option('oss_secret_key')));
-	$options['end_point'] 	= 	trim(stripslashes(yukimoe_get_option('oss_end_point')));
-	$options['path'] 		= 	trim(trim(stripslashes(yukimoe_get_option('oss_path'))), '/').'/';
-	$options['access_url'] 	= 	trim(stripslashes(yukimoe_get_option('oss_access_url')));
-	$options['img_url'] 		= 	trim(stripslashes(yukimoe_get_option('oss_img_url')));
+	$options['bucket'] 		= 	trim(stripslashes(hatsumi_get_option('oss_bucket')));
+	$options['access_key']	= 	trim(stripslashes(hatsumi_get_option('oss_access_key')));
+	$options['secret_key'] 	= 	trim(stripslashes(hatsumi_get_option('oss_secret_key')));
+	$options['end_point'] 	= 	trim(stripslashes(hatsumi_get_option('oss_end_point')));
+	$options['path'] 		= 	trim(trim(stripslashes(hatsumi_get_option('oss_path'))), '/').'/';
+	$options['access_url'] 	= 	trim(stripslashes(hatsumi_get_option('oss_access_url')));
+	$options['img_url'] 		= 	trim(stripslashes(hatsumi_get_option('oss_img_url')));
 	//从设置中获取值存入数组；
 	
 	return $options;
@@ -37,7 +37,7 @@ function upload_to_oss($file)
         return $file;
 
     $wp_uploads = wp_upload_dir();
-    $oss_options = yukimoe_oss_options();
+    $oss_options = hatsumi_oss_options();
     $config = array(
             'id'     => esc_attr($oss_options['access_key']),
             'key'    => esc_attr($oss_options['secret_key']),
@@ -66,7 +66,7 @@ function delete_from_oss($file)
     if(!false == strpos($file, '@!'))
         return $file;
 
-    $oss_options = yukimoe_oss_options();
+    $oss_options = hatsumi_oss_options();
     $config = array(
             'id'     => esc_attr($oss_options['access_key']),
             'key'    => esc_attr($oss_options['secret_key']),
@@ -141,7 +141,7 @@ if(!$oss_options['img_url'] == "")
 //更改图片文件路径
 function modefiy_img_url($url, $post_id) {
     $wp_uploads = wp_upload_dir();
-    $oss_options = yukimoe_oss_options();
+    $oss_options = hatsumi_oss_options();
 
     if(wp_attachment_is_image($post_id)){
         $img_baseurl = rtrim($oss_options['img_url'], '/');
@@ -157,7 +157,7 @@ if(!$oss_options['img_url'] == "")
 	
 //更改文件上传路径
 function reset_upload_url_path( $uploads ) {
-    $oss_options = yukimoe_oss_options();
+    $oss_options = hatsumi_oss_options();
 	if ($oss_options['access_url'] != "") {
         $baseurl = rtrim($oss_options['access_url'], '/');
         if(rtrim($oss_options['path'], '/') != ""){

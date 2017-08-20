@@ -7,14 +7,14 @@
                 <?php get_template_part( 'loop/single/content', get_post_format() ); ?>
 			<?php endwhile; ?>
             <div class="single-center">
-			<?php yukimoe_sincopy()?>
+			<?php hatsumi_sincopy()?>
 				<div class="singinfo">
 	                <div class="posttags left"><?php if ( get_the_tags() ) { the_tags('' , ''); } else{ echo "暂无标签"; } ?></div>
                     <div class="bdsharebuttonbox right" data-tag="share_1">
-                    	<a class="bds_weixin yukimoe" data-cmd="weixin">&#xe61d;</a>
-                        <a class="bds_tsina yukimoe" data-cmd="tsina">&#xe61b;</a>
-                        <a class="bds_qzone yukimoe" data-cmd="qzone" href="#">&#xe61c;</a>
-                        <a class="bds_twi yukimoe" data-cmd="twi">&#xe61a;</a>
+                    	<a class="bds_weixin hatsumi" data-cmd="weixin">&#xe61d;</a>
+                        <a class="bds_tsina hatsumi" data-cmd="tsina">&#xe61b;</a>
+                        <a class="bds_qzone hatsumi" data-cmd="qzone" href="#">&#xe61c;</a>
+                        <a class="bds_twi hatsumi" data-cmd="twi">&#xe61a;</a>
 					</div>
 	            </div>
                 </div>
@@ -43,7 +43,7 @@
 					$status_id =  $status_obj->term_id;
 					if (get_previous_post( false, $status_id, 'post_format')):?>
                     <div id="prev-post" class="hide">
-                        <div class="prev-info"><span class="prev-in-a">继续阅读下一篇文章</span><span class="prev-in-b">继续阅读</span><i class="yukimoe">&#xe629;</i></div>
+                        <div class="prev-info"><span class="prev-in-a">继续阅读下一篇文章</span><span class="prev-in-b">继续阅读</span><i class="hatsumi">&#xe629;</i></div>
                         <div class="prev-title">
                             <?php previous_post_link( '%link', '%title', false, $status_id, 'post_format');?>
                         </div>
@@ -54,7 +54,7 @@
 				<?php endif;?>
             
             
-            <?php yukimoe_rel_post();?>
+            <?php hatsumi_rel_post();?>
 			<?php if ( $comments || comments_open() ) :  comments_template( '', true );?><?php endif; ?>
             </div>
         </div>

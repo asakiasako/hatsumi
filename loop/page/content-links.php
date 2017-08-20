@@ -1,6 +1,6 @@
 <?php
-	$single_thumbnail = yukimoe_thumbnail(1600, 480);
-	$single_thumbnail = $single_thumbnail ? $single_thumbnail : yukimoe_static('image/page-default.jpg');
+	$single_thumbnail = hatsumi_thumbnail(1600, 800);
+	$single_thumbnail = $single_thumbnail ? $single_thumbnail : hatsumi_static('image/page-default.jpg');
 ?>
 <article class="page-content" itemscope itemtype="http://schema.org/Article">
 		<div class="head-img">
@@ -8,7 +8,7 @@
         		<div class="overlay"></div>
                 <div class="single-img-title">
                 <div>
-                <i class="yukimoe">&#xe627;</i>
+                <i class="hatsumi">&#xe627;</i>
                 <h1 id="single-title" class="sptitle" itemprop="headline"><a href="<?php the_permalink() ?>" rel="bookmark" itemprop="url"><?php the_title(); ?></a></h1>
             </div>  
             </div>

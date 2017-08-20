@@ -1,6 +1,6 @@
 <?php
-	$single_thumbnail = yukimoe_thumbnail(1600, 480);
-	$single_thumbnail = $single_thumbnail ? $single_thumbnail : yukimoe_static('image/page-default.jpg');
+	$single_thumbnail = hatsumi_thumbnail(1600, 800);
+	$single_thumbnail = $single_thumbnail ? $single_thumbnail : hatsumi_static('image/page-default.jpg');
 ?>
 <article class="page-content" itemscope itemtype="http://schema.org/Article">
 		<div class="head-img">
@@ -8,7 +8,7 @@
         		<div class="overlay"></div>
                 <div class="single-img-title">
                 <div>
-                <i class="yukimoe">&#xe626;</i>
+                <i class="hatsumi">&#xe626;</i>
                 <h1 id="single-title" class="sptitle" itemprop="headline"><a href="<?php the_permalink() ?>" rel="bookmark" itemprop="url"><?php the_title(); ?></a></h1>
             </div>  
             </div>
@@ -34,8 +34,10 @@
             <div class="guest-com">
             	<?php comments_template( '', true );?>
                 <script type="text/javascript">
-						document.getElementById('com-title').innerHTML="留言";
+						document.getElementById('resp-title').innerHTML="留言";
+						document.getElementById('com-title').innerHTML="最新留言";
 						document.getElementById('submit').value="发表留言";
+						document.getElementById('com-title').value="更多留言";
                 </script>
             </div>
 </div>

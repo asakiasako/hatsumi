@@ -6,7 +6,7 @@
             <div id="container">
              	<div class="search-box">            
                 <form class="search-form" method="get" action="<?php bloginfo('home');?>/">
-                    <label for="page-search"><i class="yukimoe">&#xe618;</i></label>
+                    <label for="page-search"><i class="hatsumi">&#xe618;</i></label>
                     <input class="search-text" name="s" id="page-search" type="text" placeholder="搜索..." />
             	</form>
             </div>
@@ -19,7 +19,7 @@
                     echo '</ul>';
                 	else: get_template_part( 'loop/home/content', 'noresult' );
 				 endif; ?>
-                 <?php yukimoe_nav();?>
+                 <?php hatsumi_nav();?>
             </div>
         </div>
         </div>

@@ -4,7 +4,7 @@ body, html{
 	background:transparent !important}
 </style>
 <?php get_header()?>
-    <div id="errorimg"><img src="<?php yukimoe_static('image/404.jpg', 1 )?>"/></div>
+    <div id="errorimg"><img src="<?php hatsumi_static('image/404.jpg', 1 )?>"/></div>
     <div id="errortext">
         <h1 class="errorcode">I miss U at <span id="time-running"></span></h1>
         <a id="go-last" href="javascript:history.go(-1);">返回上一页</a>

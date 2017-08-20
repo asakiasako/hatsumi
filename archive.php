@@ -25,7 +25,7 @@
 					else:get_template_part( 'loop/home/content', 'noresult' );
 					endif;?>
                 </ul>
-                <?php yukimoe_nav();?>
+                <?php hatsumi_nav();?>
             </div>
          </div>
     </div>

@@ -1,8 +1,4 @@
 $(function() { 
-    $('.flexslider').flexslider({
-	customDirectionNav: $(".slide-navigation a"),
-    controlsContainer: $(".slide-control-contain")
-  });//声明flexslider
   
 	$(document).on("click", ".tag-icon", function(){
 		$(this).next().toggleClass("show-tags");

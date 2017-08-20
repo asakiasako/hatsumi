@@ -1,6 +1,6 @@
 <?php
-	$single_thumbnail = yukimoe_thumbnail(1600, 480);
-	$single_thumbnail = $single_thumbnail ? $single_thumbnail : yukimoe_static('image/single-default.jpg');
+	$single_thumbnail = hatsumi_thumbnail(1600, 800);
+	$single_thumbnail = $single_thumbnail ? $single_thumbnail : hatsumi_static('image/single-default.jpg');
 ?>
 <article class="single-content" itemscope itemtype="http://schema.org/Article">
 		<div class="head-img">

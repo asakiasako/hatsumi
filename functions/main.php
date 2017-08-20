@@ -15,10 +15,10 @@ wp_register_script( 'jquery', ( 'http://cdn.staticfile.org/jquery/2.1.4/jquery.m
 }
 
 //加载脚本文件
-add_action('wp_enqueue_scripts', 'yukimoe_scripts');
-function yukimoe_scripts(){
+add_action('wp_enqueue_scripts', 'hatsumi_scripts');
+function hatsumi_scripts(){
     global $wp_styles, $wp_scripts;
-    wp_enqueue_style('style', get_bloginfo('stylesheet_url'),array(),YUKIMOE_VERSION );
+    wp_enqueue_style('style', get_bloginfo('stylesheet_url'),array(),HATSUMI_VERSION );
 
     /**
      * Load our IE specific stylesheet for a range of newer versions:
@@ -26,31 +26,27 @@ function yukimoe_scripts(){
      * <!--[if gte IE 9]> ... <![endif]-->
      * NOTE: You can use the 'greater than' or the 'greater than or equal to' syntax here interchangeably.
      */
-    wp_enqueue_style('yukimoe-ie8', yukimoe_static("css/ie8.css"), array( 'style' ));
-    $wp_styles->add_data( 'yukimoe-ie8', 'conditional', 'lt IE 9' );
-
-    // conditional statement for older versions of IE
-    wp_register_script('html5_shiv', yukimoe_static("js/html5shiv.js"), '', '', false);
-    $wp_scripts->add_data('html5_shiv', 'conditional', 'lt IE 9');
 
     if( !is_admin() ){
 		
         wp_enqueue_script( 'jquery' );
 		
         if( is_home() ){
-		wp_enqueue_script( 'index', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,index.js,slider-min.js,view-history.js,bdpush.js',array('jquery'), YUKIMOE_VERSION, true);
+		wp_enqueue_script( 'index', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,index.js,view-history.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
         }
 		
 		if( is_archive() || is_search() ) {
-		wp_enqueue_script( 'archive', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,index.js,view-history.js',array('jquery'), YUKIMOE_VERSION, true);
+		wp_enqueue_script( 'archive', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,index.js,view-history.js',array('jquery'), HATSUMI_VERSION, true);
         }
 
         if( is_page() ){
-		wp_enqueue_script( 'page', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,single.js',array('jquery'), YUKIMOE_VERSION, true);
+		wp_enqueue_script( 'page', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,single.js,OwO.min.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_style('owo', hatsumi_static('css/OwO.min.css'),array(),HATSUMI_VERSION );
 		}
 		
 		if( is_single() ){
-		wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,single.js,view-history.js,single-add.js,bdpush.js',array('jquery'), YUKIMOE_VERSION, true);
+		wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/Hatsumi/static/js&f=fastclick.js,single.js,view-history.js,single-add.js,OwO.min.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_style('owo', hatsumi_static('css/OwO.min.css'),array(),HATSUMI_VERSION );
 		}
 
     }
@@ -93,8 +89,8 @@ remove_action('wp_head', 'index_rel_link');
 remove_action('wp_head', 'adjacent_posts_rel_link');
 
 // 删除 Wordpress 默认加载的小工具
-add_action('widgets_init', 'yukimoe_default_wp_widgets', 1);
-function yukimoe_default_wp_widgets() {
+add_action('widgets_init', 'hatsumi_default_wp_widgets', 1);
+function hatsumi_default_wp_widgets() {
     unregister_widget('WP_Widget_Pages');
     unregister_widget('WP_Widget_Calendar');
     unregister_widget('WP_Widget_Archives');
@@ -154,77 +150,12 @@ if ( function_exists('register_sidebar') ){
 	*/
 }
 
-//为wordpess添加emoji支持
-//首先补全wp的表情库
-function smilies_reset() {
-	global $wpsmiliestrans, $wp_smiliessearch;
-
-	// don't bother setting up smilies if they are disabled
-	if (!get_option('use_smilies')) {
-		return;
-	}
-
-	$wpsmiliestrans_fixed = array(
-		':mrgreen:' => "\xf0\x9f\x98\xa2",
-		':smile:' => "\xf0\x9f\x98\xa3",
-		':roll:' => "\xf0\x9f\x98\xa4",
-		':sad:' => "\xf0\x9f\x98\xa6",
-		':arrow:' => "\xf0\x9f\x98\x83",
-		':-(' => "\xf0\x9f\x98\x82",
-		':-)' => "\xf0\x9f\x98\x81",
-		':(' => "\xf0\x9f\x98\xa7",
-		':)' => "\xf0\x9f\x98\xa8",
-		':?:' => "\xf0\x9f\x98\x84",
-		':!:' => "\xf0\x9f\x98\x85",
-	);
-	$wpsmiliestrans = array_merge($wpsmiliestrans, $wpsmiliestrans_fixed);
-}
-
-//替换emoji路径
-function static_emoji_url() {
-
-	return yukimoe_static('emoji/');
-
-}
-//让文章内容和评论支持emoji并去除emoji加载的乱七八糟的脚本
-function reset_emojis() {
-	remove_action('wp_head', 'print_emoji_detection_script', 7);
-	remove_action('admin_print_scripts', 'print_emoji_detection_script');
-	remove_action('wp_print_styles', 'print_emoji_styles');
-	remove_action('admin_print_styles', 'print_emoji_styles');
-	add_filter('the_content', 'wp_staticize_emoji');
-	add_filter('comment_text', 'wp_staticize_emoji',50); //在转换为表情后再转为静态图片
-        smilies_reset();
-        add_filter('emoji_url', 'static_emoji_url');
-}
-add_action('init', 'reset_emojis');
-
-function ym_get_wpsmiliestrans(){
-    global $wpsmiliestrans;
-    $wpsmilies = array_unique($wpsmiliestrans);
-    foreach($wpsmilies as $alt => $src_path){
-        $emoji = str_replace(array('&#x', ';'), '', wp_encode_emoji($src_path));
-        $output .= '<a class="add-smily" data-smilies="'.$alt.'"><img class="wp-smiley" src="'.yukimoe_static('emoji/'). $emoji .'.png" /></a>';
-    }
-    return $output;
-}
-
-//文章编辑器添加表情
-add_action('media_buttons_context', 'ym_smilies_custom_button');
-function ym_smilies_custom_button($context) {
-    $context .= '<style>.smilies-wrap{background:#fff;border: 1px solid #ccc;box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.24);padding: 10px;position: absolute;top: 60px;width: 400px;display:none}.smilies-wrap img{height:24px;width:24px;cursor:pointer;margin-bottom:5px} .is-active.smilies-wrap{display:block}</style><a id="insert-media-button" style="position:relative" class="button insert-smilies add_smilies" title="添加表情" data-editor="content" href="javascript:;">
-<span class="dashicons dashicons-admin-users"></span>
-添加表情
-</a><div class="smilies-wrap">'. ym_get_wpsmiliestrans() .'</div><script>jQuery(document).ready(function(){jQuery(document).on("click", ".insert-smilies",function() { if(jQuery(".smilies-wrap").hasClass("is-active")){jQuery(".smilies-wrap").removeClass("is-active");}else{jQuery(".smilies-wrap").addClass("is-active");}});jQuery(document).on("click", ".add-smily",function() { send_to_editor(" " + jQuery(this).data("smilies") + " ");jQuery(".smilies-wrap").removeClass("is-active");return false;});});</script>';
-    return $context;
-}
-
 //编辑器添加自定义标签
 add_action('admin_print_scripts', 'ym_quicktags');
 function ym_quicktags() {
     wp_enqueue_script(
         'ym-quicktags',
-        yukimoe_static('js/ym-quicktags.js'),
+        hatsumi_static('js/ym-quicktags.js'),
         array('quicktags')
     );
     };
@@ -235,20 +166,47 @@ if ( !is_admin() ) {
 }
 
 // 移除自动保存和修订版本
-add_action( 'wp_print_scripts', 'yukimoe_disable_autosave' );
+add_action( 'wp_print_scripts', 'hatsumi_disable_autosave' );
 remove_action('pre_post_update', 'wp_save_post_revision' );
-function yukimoe_disable_autosave() {
+function hatsumi_disable_autosave() {
     wp_deregister_script('autosave');
 }
 
-// 禁用Google字体
-add_filter( 'gettext_with_context', 'yukimoe_disable_open_sans', 888, 4 );
-function yukimoe_disable_open_sans( $translations, $text, $context, $domain ) {
+//禁用Google字体
+add_filter( 'gettext_with_context', 'hatsumi_disable_open_sans', 888, 4 );
+function hatsumi_disable_open_sans( $translations, $text, $context, $domain ) {
     if ( 'Open Sans font: on or off' == $context && 'on' == $text ) {
         $translations = 'off';
     }
     return $translations;
 }
+
+//添加img标签支持
+function auto_comment_image( $comment ) {// by https://mufeng.me
+    global $allowedtags;
+    $content = $comment["comment_content"];
+    // alt部分自行填写      
+    $content = preg_replace('/((https|http|ftp):\/\/){1}.+?.(jpg|gif|bmp|bnp|png)$/is','<img src="$0" alt="" />',$content);
+    //允许发布img标签      
+    $allowedtags['img'] = array('src' => array (), 'alt' => array ());
+    // 重新给$comment赋值      
+    $comment["comment_content"] = $content;
+    return $comment;
+}
+add_filter('preprocess_comment', 'auto_comment_image');
+
+//禁用emoji渲染
+remove_action('admin_print_scripts',	'print_emoji_detection_script');
+remove_action('admin_print_styles',	'print_emoji_styles');
+
+remove_action('wp_head',		'print_emoji_detection_script',	7);
+remove_action('wp_print_styles',	'print_emoji_styles');
+
+remove_action('embed_head',		'print_emoji_detection_script');
+
+remove_filter('the_content_feed',	'wp_staticize_emoji');
+remove_filter('comment_text_rss',	'wp_staticize_emoji');
+remove_filter('wp_mail',		'wp_staticize_emoji_for_email');
 
 //gravatar换到多说源
 add_filter( 'get_avatar', 'duoshuo_avatar', 10, 3 );
@@ -257,7 +215,7 @@ function duoshuo_avatar($avatar) {
     return $avatar;
 }
 //将静态文件定向到CDN
-$ali_cdn = yukimoe_get_option( 'ali_cdn' );
+$ali_cdn = hatsumi_get_option( 'ali_cdn' );
 if ( (!is_admin()) && $ali_cdn ) {
 	add_action('wp_loaded','ym_ob_start');
 	
@@ -267,7 +225,7 @@ if ( (!is_admin()) && $ali_cdn ) {
 	
 	function ym_aliyun_cdn_replace($html){
 	$local_host = home_url(); //博客域名
-	$aliyun_host = yukimoe_get_option( 'ali_cdn_dm' ); //阿里云域名
+	$aliyun_host = hatsumi_get_option( 'ali_cdn_dm' ); //阿里云域名
 	$cdn_exts   = 'js|css|png|jpg|jpeg|gif|ico'; //扩展名（使用|分隔）
 	$cdn_dirs   = 'wp-content|wp-includes'; //目录（使用|分隔）
 	
@@ -338,7 +296,7 @@ if(!function_exists('fa_ajax_comment_callback')) :
 		?>
         <div class="ym-new-comment">
         <?php 
-        yukimoe_commentlist($comment, array('avatar_size' => 42));
+        hatsumi_commentlist($comment, array('avatar_size' => 42));
 		?>
         </div>
         <?php die();
@@ -356,7 +314,7 @@ add_action('wp_ajax_ajax_comment', 'fa_ajax_comment_callback');
 // 引入其他 function
 	get_template_part('functions/comment');
 	get_template_part('functions/widget');
-	if (yukimoe_get_option( 'oss_on')) 
+	if (hatsumi_get_option( 'oss_on')) 
 	get_template_part('functions/cloudstore');
  
 /*=============================================
@@ -364,9 +322,8 @@ add_action('wp_ajax_ajax_comment', 'fa_ajax_comment_callback');
  *=============================================*/
 
 //网页的头文件
-function yukimoe_head(){
+function hatsumi_head(){
     ?>
-    <meta http-equiv="X-UA-Compatible" content="IE=9;IE=8;IE=7" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
@@ -384,8 +341,8 @@ function yukimoe_head(){
     <?php
     global $post;
     if (is_home()){
-        $keywords = yukimoe_get_option( 'keywords', 'no entry' );
-        $description = yukimoe_get_option( 'description', 'no entry' );
+        $keywords = hatsumi_get_option( 'keywords', 'no entry' );
+        $description = hatsumi_get_option( 'description', 'no entry' );
     }elseif (is_single()){
         $keywords = get_post_meta($post->ID, "keywords", true);
         if($keywords == ""){
@@ -416,8 +373,8 @@ function yukimoe_head(){
     }
     $keywords = trim(strip_tags($keywords));
     $description = trim(strip_tags($description));
-    $favicon = yukimoe_get_option( 'favicon' );
-    $favicon = $favicon ? $favicon : yukimoe_static('image/favicon.ico');
+    $favicon = hatsumi_get_option( 'favicon' );
+    $favicon = $favicon ? $favicon : hatsumi_static('image/favicon.png');
     ?>
     <meta name="keywords" content="<?php echo $keywords; ?>" />
     <meta name="description" content="<?php echo $description; ?>" />
@@ -434,9 +391,9 @@ function yukimoe_head(){
 //主题设置项名称设定
 function prefix_options_menu_filter( $menu ) {
 	$menu['mode'] = 'menu';
-	$menu['page_title'] = 'YukiMoe 设置';
-	$menu['menu_title'] = 'YukiMoe 设置';
-	$menu['menu_slug'] = 'yukimoe-options';
+	$menu['page_title'] = 'hatsumi 设置';
+	$menu['menu_title'] = 'hatsumi 设置';
+	$menu['menu_slug'] = 'hatsumi-options';
 	return $menu;
 }
 
@@ -463,8 +420,8 @@ jQuery(document).ready(function() {
 }
 
 //主题路径函数
-function yukimoe_static($path, $display=0){
-    $path = YUKIMOE_THEMEROOT . "/static/" . $path;
+function hatsumi_static($path, $display=0){
+    $path = HATSUMI_THEMEROOT . "/static/" . $path;
 
     if( $display ){
         echo $path;
@@ -473,81 +430,25 @@ function yukimoe_static($path, $display=0){
     }
 }
 
-//顶栏幻灯片
-function yukimoe_slider(){
-    $slider_active  = yukimoe_get_option( 'slider_img_art');
-    $slider_content = yukimoe_get_option('slider_img_art-content');
-    $slider_array = explode(',', $slider_content);
-    $slider_count = count($slider_array);
-    if( $slider_active && ( $slider_content )){?>
-        <div id="slider_img_art">
-            <div class="center clearfix">
-                <div class="flexslider">
-                	<ul class="slides">
-                    <?php $posts = query_posts(array(
-                            'post__in' => $slider_array
-                        ));
-                        while(have_posts()) : the_post(); ?>
-                        <li>
-                            <div class="slider-thumbnail" itemscope itemtype="http://schema.org/Article">
-                            	<div class="slider-img-bg" style="background-image: url('<?php echo yukimoe_thumbnail(1280,800);?>');filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo yukimoe_thumbnail(1280,800);?>', sizingMethod='scale');"></div>
-                                <div class="slider-img-cover">
-                                <div>
-                                	<div class="slider-inner">
-                                        <span class="slider-cat"><?php the_category(' ,');?></span>
-                                        <h2 class="slider-title" itemprop="headline"><a href="<?php the_permalink() ?>" rel="bookmark" itemprop="url"><?php the_title(); ?></a></h2>
-                                        <a class="slider-link" href="<?php the_permalink() ?>"><span>阅读文章</span><span class="yukimoe slider-button">&#xe622;</span></a>
-                                	</div>
-                                </div>
-                                </div>
-                            </div>
-                        </li>
-                        <?php endwhile; 
-                        $posts = null;
-                        wp_reset_query();?>
-                    </ul>
-                    	<div class="slide-navigation">
-                          <a href="#" class="flex-next yukimoe right">&#xe624;</a>
-                          <a href="#" class="flex-prev yukimoe right">&#xe623;</a>
-                        </div>
-                    	<div class="slide-control-contain"></div>
-                </div>
-            </div>
-        </div>
-    <?php }
-}
-/*
-function yukimoe_headimg() {
-	$img_src = trim(yukimoe_get_option( 'headimg' ));
-	$img_title = trim(yukimoe_get_option( 'headimgtitle' ));
-	$img_disc = trim(yukimoe_get_option( 'headimgdisc' ));
-	$img_src = $img_src ? $img_src : yukimoe_static('image/header-img.jpg');
-	$img_title = $img_title ? $img_title : '初・はつ';
-	$img_disc = $img_disc ? $img_disc : '終わらない夜に願いはひとつ';
+function hatsumi_headimg() {
+	$img_src = trim(hatsumi_get_option( 'headimg' ));
+	$img_src = $img_src ? $img_src : hatsumi_static('image/header-img.jpg');
 	?>
-    <div class="head-img">
+    <div class="head-img home m-header">
     	<div style="background-image: url('<?php echo $img_src?>');filter: progid: DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $img_src?>', sizingMethod='scale');">
-        </div>
-        <div class="over">
-        </div>
-        <div class="head-img-title">	
-        	<h2><?php echo $img_title?></h2>
-        	<p><?php echo $img_disc?></p>
         </div>
     </div>
         <?php
 }
-*/	
 	
-
 //截取文章内容
-	function yukimoe_content($number=500){
+	function hatsumi_content($number=500){
 		global $post;
 		echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, $number, "……");
 	}
 	
 //一个月内文章显示为几天前
-function yukimoe_time_before(){
+function hatsumi_time_before(){
 	global $post ;
 	$to = time();
 	$from = get_the_time('U') ;
@@ -581,10 +482,10 @@ function yukimoe_time_before(){
 	}
 	return $time;
 }
-add_filter('the_time','yukimoe_time_before');
+add_filter('the_time','hatsumi_time_before');
 	
 //导航按钮(wp>=4.1)
-function yukimoe_nav( ){?>
+function hatsumi_nav( ){?>
 		<div id="ajax-load-list">
         	<?php next_posts_link('加载更多','');//下一页的链接 ?>
             <div class="loader-inner">
@@ -593,7 +494,7 @@ function yukimoe_nav( ){?>
         </div>
 	<?php }
 	
-function yukimoe_com_nav(){?>
+function hatsumi_com_nav(){?>
 		<div id="ajax-load-com">
         	<?php previous_comments_link('更多评论');//下一页的链接 ?>
             <div class="loader-inner">
@@ -604,8 +505,8 @@ function yukimoe_com_nav(){?>
 
 
 //排除文章分类
-	function yukimoe_cat_dis(){
-		$catdis_array = yukimoe_get_option('catdis');
+	function hatsumi_cat_dis(){
+		$catdis_array = hatsumi_get_option('catdis');
 			foreach ($catdis_array as $key=>$catdis){
 				if ($catdis==1) $catdis_string = $catdis_string.'-'.$key.',';
 			}
@@ -623,7 +524,7 @@ function yukimoe_com_nav(){?>
 	add_filter( 'wp_calculate_image_srcset', 'disable_srcset' );
 
 //输出文章內的图片
-function yukimoe_postimg_list($width=181, $height=201, $num=4 ){
+function hatsumi_postimg_list($width=181, $height=201, $num=4 ){
 	global $post;
 	ob_start();
     ob_end_clean();
@@ -632,7 +533,7 @@ function yukimoe_postimg_list($width=181, $height=201, $num=4 ){
 	if( !empty($match) ){
 		$num= ($num<=$match_num)?$num:$match_num;
 		for ($i=0;$i<$num;$i++){
-            $post_img = yukimoe_thumb($match[1][$i], $width, $height);//都没有则匹配第一张图片
+            $post_img = hatsumi_thumb($match[1][$i], $width, $height);//都没有则匹配第一张图片
 			?>
             <img class="img-gallery img-<?php echo $i+1?>" src="<?php echo $post_img?>" width="<?php echo $width?>" height="<?php echo $height?>"/>
             <?php
@@ -643,20 +544,20 @@ function yukimoe_postimg_list($width=181, $height=201, $num=4 ){
 }
 		
 //缩略图输出函数
-function yukimoe_thumbnail($width=400, $height=240){
+function hatsumi_thumbnail($width=400, $height=240){
     global $post;
     if( has_post_thumbnail() ){
         $timthumb_src = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID),'full');
-        $post_img = yukimoe_thumb($timthumb_src[0], $width, $height);
+        $post_img = hatsumi_thumb($timthumb_src[0], $width, $height);
     }else if( $asako_thumb = get_post_custom_values('a-thumb') ) {
 		$asako_thumb = get_post_custom_values('a-thumb');
-		$post_img = yukimoe_thumb($asako_thumb[0], $width, $height);//外链缩略图
+		$post_img = hatsumi_thumb($asako_thumb[0], $width, $height);//外链缩略图
 	}else{
         ob_start();
         ob_end_clean();
         preg_match('/\<img.+?src="(.+?)".*?\/>/is',$post->post_content, $match);
         if( !empty($match) ){
-            $post_img = yukimoe_thumb($match[1], $width, $height);//都没有则匹配第一张图片
+            $post_img = hatsumi_thumb($match[1], $width, $height);//都没有则匹配第一张图片
         }else{
             return false;//无图空值
         }
@@ -665,14 +566,16 @@ function yukimoe_thumbnail($width=400, $height=240){
 }
 
 //缩略图处理函数(暂留）
-function yukimoe_thumb($url, $width, $height, $force=false){
-	$user_aliyun = yukimoe_get_option( 'oss_on');
+function hatsumi_thumb($url, $width, $height, $force=false){
+	$user_aliyun = hatsumi_get_option( 'oss_on');
     $user_qiniu = 0;//get_setting('qiniu');
     $user_youpai = 0;//get_setting('youpai');
-	$width = 1.5*$width; 
+	$width = 1.5*$width;
+	$width = round($width);
 	$height = 1.5*$height;
+	$height = round($height);
 	if( $force ){
-		$url = YUKIMOE_THEMEROOT ."/timthumb.php&#63;src={$url}&#38;w={$width}&#38;h={$height}&#38;zc=1&#38;q=100";
+		$url = HATSUMI_THEMEROOT ."/timthumb.php&#63;src={$url}&#38;w={$width}&#38;h={$height}&#38;zc=1&#38;q=100";
 	}else{
 		if( $user_aliyun ){
 			$url .= "@{$width}w_{$height}h_1e_1c_gif_60Q";
@@ -681,17 +584,17 @@ function yukimoe_thumb($url, $width, $height, $force=false){
 		}else if( $user_youpai ) {
 			$url .= "@!{$width}x{$height}";
 		}else{
-			$url = YUKIMOE_THEMEROOT ."/timthumb.php&#63;src={$url}&#38;w={$width}&#38;h={$height}&#38;zc=1&#38;q=100";
+			$url = HATSUMI_THEMEROOT ."/timthumb.php&#63;src={$url}&#38;w={$width}&#38;h={$height}&#38;zc=1&#38;q=100";
 		}
 	}
     return $url;
 }
 
 // 搜索关键词高亮
-add_filter("the_title", "yukimoe_search_highlight", 200);
-add_filter("the_excerpt", "yukimoe_search_highlight", 200);
-add_filter("the_content", "yukimoe_search_highlight", 200);
-function yukimoe_search_highlight($buffer){
+add_filter("the_title", "hatsumi_search_highlight", 200);
+add_filter("the_excerpt", "hatsumi_search_highlight", 200);
+add_filter("the_content", "hatsumi_search_highlight", 200);
+function hatsumi_search_highlight($buffer){
     if(is_search()){
         $arr = explode(" ", get_search_query());
         $arr = array_unique($arr);
@@ -708,9 +611,9 @@ function yukimoe_search_highlight($buffer){
 }
 
 //文章页底部来源及版权信息
-function yukimoe_sincopy(){
+function hatsumi_sincopy(){
 	global $post;
-	$sincopy = yukimoe_get_option('sincopy');
+	$sincopy = hatsumi_get_option('sincopy');
 	if ( $sincopy ) { 
 		?>
         <div class="sin-copy">
@@ -728,15 +631,15 @@ function yukimoe_sincopy(){
 }
 
 //主题文章页添加来源名称和链接
-add_action( 'add_meta_boxes', 'yukimoe_single_from' );
+add_action( 'add_meta_boxes', 'hatsumi_single_from' );
 
-add_action( 'save_post', 'yukimoe_save_postdata' );
+add_action( 'save_post', 'hatsumi_save_postdata' );
 
-function yukimoe_single_from() {
-	add_meta_box('come-from','文章来源','yukimoe_single_disp','post','side');
+function hatsumi_single_from() {
+	add_meta_box('come-from','文章来源','hatsumi_single_disp','post','side');
 }
  
-function yukimoe_single_disp( $post ) {
+function hatsumi_single_disp( $post ) {
 
   wp_nonce_field( 'come_from_update' , 'come_from_update_nounce' );
  
@@ -753,7 +656,7 @@ function yukimoe_single_disp( $post ) {
   echo '<input type="text" id="from_link" name="from_link" value="'.esc_attr($value_2).'" size="25" />';
 }
  
-function yukimoe_save_postdata( $post_id ) {
+function hatsumi_save_postdata( $post_id ) {
 	
   if ( ! current_user_can( 'edit_post', $post_id ) )
         return;
@@ -774,10 +677,10 @@ function yukimoe_save_postdata( $post_id ) {
 
 //维护模式
 function maintenance_mode($mainten=0) {
-	$mainten = yukimoe_get_option( 'maintenance');
+	$mainten = hatsumi_get_option( 'maintenance');
 	$mainten = $mainten?$mainten:0;
 	if ($mainten):
-		$maint_word=yukimoe_get_option( 'maintword');
+		$maint_word=hatsumi_get_option( 'maintword');
 		$maint_word=$maint_word?$maint_word:'稍';
 		if(!current_user_can('edit_themes') || !is_user_logged_in()){
         wp_die('网站正在维护中，请'.$maint_word.'后访问', '施工中……', array('response' => '503'));
@@ -789,7 +692,7 @@ add_action('get_header', 'maintenance_mode');
 	
 
 //相关文章
-function yukimoe_rel_post($post_num = 3) {
+function hatsumi_rel_post($post_num = 3) {
     global $post;
     echo '<ul id="related-posts" class="clearfix">';
     $exclude_id = $post->ID;
@@ -813,7 +716,7 @@ function yukimoe_rel_post($post_num = 3) {
         query_posts($args);
         while( have_posts() ) { the_post(); ?>
             <li class="left related-post<?php if($i%3==0 && $i>0) echo " related-post-last";?>">
-                <a href="<?php the_permalink(); ?> " class="related-post-image" rel="nofollow"><img src="<?php echo yukimoe_thumbnail( 256,240 ); ?>"/></a>
+                <a href="<?php the_permalink(); ?> " class="related-post-image" rel="nofollow"><img src="<?php echo hatsumi_thumbnail( 256,240 ); ?>"/></a>
                 <a href="<?php the_permalink(); ?>" ><div class="rel-over"></div></a>
                 <a class="related-post-tittle" href="<?php the_permalink(); ?>" ><?php the_title(); ?></a>
             </li>
@@ -839,7 +742,7 @@ function yukimoe_rel_post($post_num = 3) {
         query_posts($args);
         while( have_posts() ) { the_post(); ?>
             <li class="left related-post<?php if($i%3==0 && $i>0) echo " related-post-last";?>">
-                <a href="<?php the_permalink(); ?> " class="related-post-image" rel="nofollow"><img src="<?php echo yukimoe_thumbnail( 256,240 ); ?>"/></a>
+                <a href="<?php the_permalink(); ?> " class="related-post-image" rel="nofollow"><img src="<?php echo hatsumi_thumbnail( 256,240 ); ?>"/></a>
                 <a href="<?php the_permalink(); ?>" ><div class="rel-over"></div></a>
                 <a class="related-post-tittle" href="<?php the_permalink(); ?>" ><?php the_title(); ?></a>
             </li>
@@ -852,7 +755,7 @@ function yukimoe_rel_post($post_num = 3) {
 }
 
 //ajax提醒
-function yukimoe_ajax_error($text) { 
+function hatsumi_ajax_error($text) { 
     header('HTTP/1.0 500 Internal Server Error');
 	header('Content-Type: text/plain;charset=UTF-8');
     echo $text;
@@ -860,7 +763,7 @@ function yukimoe_ajax_error($text) {
 }
 
 //面包屑导航
-function yukimoe_breadcrumbs() {
+function hatsumi_breadcrumbs() {
 	$delimiter = '»'; // 分隔符
 	$before = '<span class="current">'; // 在当前链接前插入
 	$after = '</span>'; // 在当前链接后插入
