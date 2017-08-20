@@ -1,6 +1,6 @@
 <?php
 	$single_thumbnail = hatsumi_thumbnail(1600, 800);
-	$single_thumbnail = $single_thumbnail ? $single_thumbnail : hatsumi_static('image/single-default.jpg');
+	$single_thumbnail = $single_thumbnail ? $single_thumbnail : hatsumi_thumb('http://oss.swiity.com/images/single_default/single-default'.rand(0,7).'.jpg',1600,800);
 ?>
 <article class="single-content" itemscope itemtype="http://schema.org/Article">
 		<div class="head-img">

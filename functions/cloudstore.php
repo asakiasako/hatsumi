@@ -23,7 +23,7 @@ function hatsumi_oss_options(){
 	$options['end_point'] 	= 	trim(stripslashes(hatsumi_get_option('oss_end_point')));
 	$options['path'] 		= 	trim(trim(stripslashes(hatsumi_get_option('oss_path'))), '/').'/';
 	$options['access_url'] 	= 	trim(stripslashes(hatsumi_get_option('oss_access_url')));
-	$options['img_url'] 		= 	trim(stripslashes(hatsumi_get_option('oss_img_url')));
+	$options['img_url'] 		= 	$options['access_url'];
 	//从设置中获取值存入数组；
 	
 	return $options;
@@ -63,7 +63,7 @@ add_filter('wp_handle_upload', 'upload_to_oss', 30);
 //删除文件时同时删除oss上的文件
 function delete_from_oss($file)
 {
-    if(!false == strpos($file, '@!'))
+    if(!false == strpos($file, '?x-oss-process=style'))
         return $file;
 
     $oss_options = hatsumi_oss_options();
@@ -91,7 +91,7 @@ add_action('wp_delete_file', 'delete_from_oss');
 //修正无法删除本地缩略图
 function delete_thumb_img($file)
 {
-    if(!false == strpos($file, '@!')) //todo
+    if(!false == strpos($file, '?x-oss-process=style')) //todo
         return $file;
 
     $file_t = substr($file, 0, strrpos($file, '.'));
@@ -121,16 +121,16 @@ function modefiy_img_meta($data) {
     $filename = basename($data['file']);
 
     if(isset($data['sizes']['thumbnail'])) {
-        $data['sizes']['thumbnail']['file'] = $filename.'@!thumbnail';
+        $data['sizes']['thumbnail']['file'] = $filename.'?x-oss-process=style/thumbnail';
     }
     if(isset($data['sizes']['post-thumbnail'])) {
-        $data['sizes']['post-thumbnail']['file'] = $filename.'@!post-thumbnail';
+        $data['sizes']['post-thumbnail']['file'] = $filename.'?x-oss-process=style/post-thumbnail';
     }
     if(isset($data['sizes']['medium'])) {
-        $data['sizes']['medium']['file'] = $filename.'@!medium';
+        $data['sizes']['medium']['file'] = $filename.'?x-oss-process=style/medium';
     }
     if(isset($data['sizes']['large'])) {
-        $data['sizes']['large']['file'] = $filename.'@!large';
+        $data['sizes']['large']['file'] = $filename.'?x-oss-process=style/large';
     }
 
     return $data;
@@ -142,9 +142,9 @@ if(!$oss_options['img_url'] == "")
 function modefiy_img_url($url, $post_id) {
     $wp_uploads = wp_upload_dir();
     $oss_options = hatsumi_oss_options();
-
+	
     if(wp_attachment_is_image($post_id)){
-        $img_baseurl = rtrim($oss_options['img_url'], '/');
+        $img_baseurl = 'http://'.rtrim($oss_options['img_url'], '/');
         if(rtrim($oss_options['path'], '/') != ""){
             $img_baseurl = $img_baseurl .'/'. rtrim($oss_options['path'], '/');
         }

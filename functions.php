@@ -10,7 +10,7 @@
  
  //函数引用常量定义
  define('HATSUMI_THEMEROOT', get_bloginfo('template_directory'));
- define('HATSUMI_VERSION', '0.9.4');
+ define('HATSUMI_VERSION', '0.9.39');
  
 //主题设置项函数声明
 	define( 'OPTIONS_FRAMEWORK_DIRECTORY', get_template_directory_uri() . '/inc/' );
@@ -19,4 +19,6 @@
 	load_template( $optionsfile );
 	
  //引用主函数文件
+ require_once dirname( __FILE__ ) . '/functions/Mobile_Detect.php';
  get_template_part('functions/main');
+ 

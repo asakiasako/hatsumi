@@ -62,7 +62,7 @@ add_custom_background();
 add_theme_support( 'automatic-feed-links' );
 
 // 声明文章形式
-add_theme_support( 'post-formats', array('status', 'gallery') );
+add_theme_support( 'post-formats', array('image', 'status', 'gallery') );
 
 // Enable link manager
 add_filter( 'pre_option_link_manager_enabled', '__return_true' );
@@ -208,21 +208,43 @@ remove_filter('the_content_feed',	'wp_staticize_emoji');
 remove_filter('comment_text_rss',	'wp_staticize_emoji');
 remove_filter('wp_mail',		'wp_staticize_emoji_for_email');
 
-/*
-//gravatar换到多说源
-add_filter( 'get_avatar', 'duoshuo_avatar', 10, 3 );
-function duoshuo_avatar($avatar) {
-    $avatar = str_replace(array("www.gravatar.com","0.gravatar.com","1.gravatar.com","2.gravatar.com"), "gravatar.duoshuo.com", $avatar);
-    return $avatar;
+//替换头像服务器
+function hatsumi_avatar($avatar) {
+    $avatar = str_replace(array("www.gravatar.com","0.gravatar.com","1.gravatar.com","2.gravatar.com","gravatar.duoshuo.com"),"secure.gravatar.com",$avatar);
+	$avatar = str_replace("http","https",$avatar);
+	
+	$root = get_bloginfo('wpurl');
+	$time = 86400;
+	
+	$tmp = strpos($avatar, 'src=') + 5;
+  	$src1 = substr($avatar, $tmp, strpos($avatar, "'", $tmp) - $tmp);
+	$tmp = strpos($src1, 'avatar/') + 7;
+	$avt1 = substr($src1, $tmp);
+	$avt1 = str_replace('?','_',$avt1);
+	$avt1 = str_replace('&amp;','_',$avt1);
+	$src2 = ABSPATH.'avatar/'.$avt1.'.jpeg';
+	
+	$tmp = strpos($avatar, 'srcset=') + 8;
+	$set1 = substr($avatar, $tmp, strpos($avatar, " ", $tmp) - $tmp);
+	$tmp = strpos($set1, 'avatar/') + 7;
+	$avt2 = substr($set1, $tmp);
+	$avt2 = str_replace('?','_',$avt2);
+	$avt2 = str_replace('&amp;','_',$avt2);
+	$set2 = ABSPATH.'avatar/'.$avt2.'.jpeg';
+	
+	if ( !(is_file($src2) && is_file($set2)) || (time()-filemtime($src2))> $time || (time()-filemtime($set2))>$time ) {
+		copy(htmlspecialchars_decode($src1), $src2);
+		copy(htmlspecialchars_decode($set1), $set2);
+	}
+	else {
+		$avatar = strtr($avatar, array($src1 => $root.'/avatar/'.$avt1.'.jbeg', $set1 => $root.'/avatar/'.$avt2.'.jpeg'));
+		$avatar = str_replace('swiity.com', 'static.swiity.com', $avatar);
+	}
+	
+	return $avatar;
 }
-*/
+add_filter( 'get_avatar', 'hatsumi_avatar', 10, 3 );
 
-//gravatar替换为https
-function get_ssl_avatar($avatar) {
-   $avatar = preg_replace('/.*\/avatar\/(.*)\?s=([\d]+)&.*/','<img src="https://secure.gravatar.com/avatar/$1?s=$2" class="avatar avatar-$2" >',$avatar);
-   return $avatar;
-}
-add_filter('get_avatar', 'get_ssl_avatar');
 
 //将静态文件定向到CDN
 $ali_cdn = hatsumi_get_option( 'ali_cdn' );
@@ -336,6 +358,8 @@ function hatsumi_head(){
     ?>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="format-detection" content="telephone=no" />
+    <meta property="wb:webmaster" content="9209080a81408994" />
+    <meta name="baidu-site-verification" content="HZLo0l0V0v" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <!-- 各页面Title设定 -->
     <?php if ( is_home() ) { ?><title><?php bloginfo('name'); ?> - <?php bloginfo('description'); ?></title><?php } ?>
@@ -386,6 +410,15 @@ function hatsumi_head(){
     $favicon = hatsumi_get_option( 'favicon' );
     $favicon = $favicon ? $favicon : hatsumi_static('image/favicon.png');
     ?>
+    <script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		"HTML-CSS": {
+			showMathMenu: false
+		},
+		showProcessingMessages: false,
+    	messageStyle: "none"
+	});
+	</script>
     <meta name="keywords" content="<?php echo $keywords; ?>" />
     <meta name="description" content="<?php echo $description; ?>" />
     <meta name="viewport" content="initial-scale=1.0,user-scalable=no" />
@@ -563,14 +596,7 @@ function hatsumi_thumbnail($width=400, $height=240){
 		$asako_thumb = get_post_custom_values('a-thumb');
 		$post_img = hatsumi_thumb($asako_thumb[0], $width, $height);//外链缩略图
 	}else{
-        ob_start();
-        ob_end_clean();
-        preg_match('/\<img.+?src="(.+?)".*?\/>/is',$post->post_content, $match);
-        if( !empty($match) ){
-            $post_img = hatsumi_thumb($match[1], $width, $height);//都没有则匹配第一张图片
-        }else{
             return false;//无图空值
-        }
     }
     return $post_img;
 }
@@ -578,24 +604,14 @@ function hatsumi_thumbnail($width=400, $height=240){
 //缩略图处理函数(暂留）
 function hatsumi_thumb($url, $width, $height, $force=false){
 	$user_aliyun = hatsumi_get_option( 'oss_on');
-    $user_qiniu = 0;//get_setting('qiniu');
-    $user_youpai = 0;//get_setting('youpai');
 	$width = 1.5*$width;
 	$width = round($width);
 	$height = 1.5*$height;
 	$height = round($height);
-	if( $force ){
+	if( $force || (!$user_aliyun) ){
 		$url = HATSUMI_THEMEROOT ."/timthumb.php&#63;src={$url}&#38;w={$width}&#38;h={$height}&#38;zc=1&#38;q=100";
 	}else{
-		if( $user_aliyun ){
-			$url .= "@{$width}w_{$height}h_1e_1c_gif_60Q";
-		}else if( $user_qiniu ){
-			$url .= "?imageView/1/w/{$width}/h/{$height}/q/100";
-		}else if( $user_youpai ) {
-			$url .= "@!{$width}x{$height}";
-		}else{
-			$url = HATSUMI_THEMEROOT ."/timthumb.php&#63;src={$url}&#38;w={$width}&#38;h={$height}&#38;zc=1&#38;q=100";
-		}
+			$url .= "?x-oss-process=image/resize,m_mfit,h_{$height},w_{$width},limit_0/crop,h_{$height},w_{$width},g_center/format,gif/interlace,1/quality,Q_80";
 	}
     return $url;
 }
@@ -693,7 +709,7 @@ function maintenance_mode($mainten=0) {
 		$maint_word=hatsumi_get_option( 'maintword');
 		$maint_word=$maint_word?$maint_word:'稍';
 		if(!current_user_can('edit_themes') || !is_user_logged_in()){
-        wp_die('网站正在维护中，请'.$maint_word.'后访问', '施工中……', array('response' => '503'));
+        wp_die($maint_word, '施工中……', array('response' => '503'));
     }
 	endif;
 }
@@ -704,9 +720,9 @@ add_action('get_header', 'maintenance_mode');
 //相关文章
 function hatsumi_rel_post($post_num = 3) {
     global $post;
-    echo '<ul id="related-posts" class="clearfix">';
     $exclude_id = $post->ID;
-    $posttags = get_the_tags(); $i = 0;
+    $posttags = get_the_tags(); 
+	$i = 0;
     if ( $posttags ) {
         $tags = ''; foreach ( $posttags as $tag ) $tags .= $tag->term_id . ',';
         $args = array(
@@ -724,9 +740,13 @@ function hatsumi_rel_post($post_num = 3) {
             'posts_per_page' => $post_num
         );
         query_posts($args);
+		if (have_posts()) echo '<ul id="related-posts" class="clearfix">';
         while( have_posts() ) { the_post(); ?>
             <li class="left related-post<?php if($i%3==0 && $i>0) echo " related-post-last";?>">
-                <a href="<?php the_permalink(); ?> " class="related-post-image" rel="nofollow"><img src="<?php echo hatsumi_thumbnail( 256,240 ); ?>"/></a>
+                <a href="<?php the_permalink(); ?> " class="related-post-image" rel="nofollow"><img src="<?php 
+				$rel_thumb = hatsumi_thumbnail( 256,240 );
+				$rel_thumb = $rel_thumb ? $rel_thumb : hatsumi_thumb('http://oss.swiity.com/images/single_default/single-default'.rand(0,7).'.jpg', 256, 240);
+				echo $rel_thumb; ?>"/></a>
                 <a href="<?php the_permalink(); ?>" ><div class="rel-over"></div></a>
                 <a class="related-post-tittle" href="<?php the_permalink(); ?>" ><?php the_title(); ?></a>
             </li>
@@ -750,19 +770,30 @@ function hatsumi_rel_post($post_num = 3) {
             'posts_per_page' => $post_num - $i
         );
         query_posts($args);
+		if (($i == 0) && have_posts()) echo '<ul id="related-posts" class="clearfix">';
         while( have_posts() ) { the_post(); ?>
             <li class="left related-post<?php if($i%3==0 && $i>0) echo " related-post-last";?>">
-                <a href="<?php the_permalink(); ?> " class="related-post-image" rel="nofollow"><img src="<?php echo hatsumi_thumbnail( 256,240 ); ?>"/></a>
+                <a href="<?php the_permalink(); ?> " class="related-post-image" rel="nofollow"><img src="<?php 
+				$rel_thumb = hatsumi_thumbnail( 256,240 );
+				$rel_thumb = $rel_thumb ? $rel_thumb : hatsumi_thumb('http://oss.swiity.com/images/single_default/single-default'.rand(0,7).'.jpg', 256, 240);
+				echo $rel_thumb;?>"/></a>
                 <a href="<?php the_permalink(); ?>" ><div class="rel-over"></div></a>
                 <a class="related-post-tittle" href="<?php the_permalink(); ?>" ><?php the_title(); ?></a>
             </li>
-
         <?php $i++;
         } wp_reset_query();
     }
-    if ( $i  == 0 )  return;
+	if ($i == 0) return;
     echo '</ul>';
 }
+
+//禁止直接进入登录页
+/*
+add_action('login_enqueue_scripts','login_protection');
+    function login_protection(){
+        if($_GET['user'] != 'sdtclass')  header('Location: /');
+    }
+*/
 
 //ajax提醒
 function hatsumi_ajax_error($text) { 

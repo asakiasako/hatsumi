@@ -1,10 +1,19 @@
 <?php
     $post_thumbnail = hatsumi_thumbnail(760, 228);
-    $post_class = "post no-image";
+    $post_class = $post_thumbnail ? "post post-with-thumbnail" : "post";
 ?>
 
 <li class="<?php echo $post_class;?>">
 	<div class="post-inner" itemscope itemtype="http://schema.org/Article">
+    <?php
+        if( $post_thumbnail ){?>
+        <a title="<?php the_title();?>" href="<?php the_permalink() ?>" rel="bookmark">
+            <div class="post-thumbnail">
+                <img src="<?php echo $post_thumbnail;?>" alt="<?php the_title();?>" itemprop="image"/>
+            </div>
+            </a>
+        <?php }
+    ?>
     <div class="post-body">
     <a title="<?php the_title();?>" href="<?php the_permalink() ?>" rel="bookmark" itemprop="url">
         <h2 class="post-title" itemprop="headline">
@@ -12,14 +21,11 @@
         </h2>
     	</a>
         <div class="post-content">
-            <?php
-				$detect = new Mobile_Detect;
-				if ( $detect->isMobile() ) {
- 					echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 120,"……");
-				}
-				else {
-                	echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 250,"……");
-				}
+            <?php if( $post_thumbnail ){
+                echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 130,"……");
+            }else{
+                echo mb_strimwidth(strip_tags(apply_filters('the_content', $post->post_content)), 0, 300,"……");
+            }
             ?>
         </div>
         <div class="read-more"><a title="<?php the_title();?>" href="<?php the_permalink() ?>" rel="bookmark">Read more&hellip;</a></div>

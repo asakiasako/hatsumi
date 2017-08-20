@@ -210,12 +210,12 @@ function optionsframework_options() {
 	);
 	
 	$options[] = array(
-		'name' => '维护时长',
-		'desc' => '请输入预计维护时长，如“1小时”。留空将显示为“稍后”',
+		'name' => '维护提示',
+		'desc' => '请输入维护时在网站显示的维护提示信息',
 		'id' => 'maintword',
-		'placeholder' => '如：“1小时”，“2天”',
+		'placeholder' => '如：“网站正在维护中，请稍后访问”',
 		'type' => 'text',
-		'class' => 'mini'
+		'class' => 'text'
 	);
 	
 	//第三页 OSS/CDN
@@ -255,7 +255,7 @@ function optionsframework_options() {
 		$options[] = array(
 		'desc' => '请参考XXXX输入节点对应的end point',
 		'id' => 'oss_end_point',
-		'placeholder' => '例如（以上海为例）：',
+		'placeholder' => '例如（以上海为例）：oss-cn-shanghai.aliyuncs.com',
 		'type' => 'text'
 	);
 	
@@ -269,13 +269,6 @@ function optionsframework_options() {
 		$options[] = array(
 		'desc' => 'oss的访问域名（支持绑定到oss bucket的独立域名，留空后只能使用本地资源）',
 		'id' => 'oss_access_url',
-		'placeholder' => '例如： ',
-		'type' => 'text'
-	);
-	
-		$options[] = array(
-		'desc' => '图片服务访问域名（请于oss中的图片服务选项卡进行图片服务CDN设置［必填］，需要在oss控制台添加对应规则，相见XXX）',
-		'id' => 'oss_img_url',
 		'placeholder' => '例如： ',
 		'type' => 'text'
 	);

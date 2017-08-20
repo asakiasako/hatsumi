@@ -2,9 +2,9 @@
 
     //反垃圾评论
 	function hatsumi_antijunk( $incoming_comment ) {
-		$max_lenth = 20 ;
+		$max_lenth = 100 ;
 		$http = '/href=|url=|rel="nofollow"|<\/a>/u'; 
-		$pattern = '/[一-龥]|furafura/u';
+		$pattern = '/[一-龥]|swiity/u';
 		$jpattern ='/[ぁ-ん]+|[ァ-ヴ]+/u';
 		$anti_open = hatsumi_get_option('anti-junk') ;
 		if($anti_open) {
@@ -14,11 +14,11 @@
 			}
 			else if(strlen(trim($incoming_comment['comment_content']))>$max_lenth) {
 				if(!preg_match($pattern, $incoming_comment['comment_content'])) {
-					hatsumi_ajax_error( "为防止垃圾评论，超过20个字符的评论，必须包含中文。" );
+					hatsumi_ajax_error( "为防止垃圾评论，超过100个字符的评论，必须包含中文。" );
 					return;
 				}
 				else if(preg_match($jpattern, $incoming_comment['comment_content'])) {
-					hatsumi_ajax_error( "为防止垃圾评论，超过20个字符的评论，不能包含日文字符。" );
+					hatsumi_ajax_error( "为防止垃圾评论，超过100个字符的评论，不能包含日文字符。" );
 					return;
 				}
 			}
@@ -105,7 +105,7 @@
 			}
 			?>
             <?php 
-			if ($comment->user_id):?> <a href="<?php the_author_meta( 'user_url', $comment->user_id );?>" rel="external nofollow" class="url"><?php the_author_meta( 'display_name', $comment->user_id );?></a>
+			if ($comment->user_id): $url_link=get_the_author_meta( 'user_url', $comment->user_id ); $url_link=$url_link?('href="'.$url_link.'"'):"";?> <a <?php echo $url_link?> rel="external nofollow" class="url"><?php the_author_meta( 'display_name', $comment->user_id );?></a>
 			<?php else: printf(__('<cite>%s</cite>'), get_comment_author_link()); 
 			endif;?>
             </div>

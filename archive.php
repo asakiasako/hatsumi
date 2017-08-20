@@ -7,12 +7,13 @@
              <?php if(have_posts()):?>
              	<div id="cat-header">
                 	<div class="cat-title">
-						<?php the_category()?>
+						<?php $cat = single_cat_title('',false);
+						echo $cat;
+						?>
                     </div>
                     <div class="cat-disc">
                     	<?php 
-							$cats=get_the_category();
-							echo $cats[0]->description;
+							echo category_description(get_cat_id($cat));
 							?>
                     </div>
                     <div class="cat-line"></div>

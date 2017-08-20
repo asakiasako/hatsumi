@@ -1,32 +1,50 @@
 $(function() {
     FastClick.attach(document.body);
-	$('.mob-logged, .user-login').click(function(){
+	$('.mob-logged, .user-login, .mob-menu-bu').click(function(){
 		$('html').addClass('ac-no-scroll');
 		});
-	$('.mob-logclose, #sign form .close').click(function(){
+	$('.mob-logclose, #sign form .close, .mob-menuclose').click(function(){
 		$('html').removeClass('ac-no-scroll');
 		});
 	$('.mob-logged').click(function(){
+		$('html').addClass('noline');
 		$('#header, #main').addClass('noBlur');
 		$('.mob-avatar').fadeIn(200).css('top',0);
-		$('#header div.search').css({right:-50});
+		$('#header .mob-menu-bu').animate({right:-50});
 		$('.mob-logged').animate({left:-60},function(){$('.mob-logclose').animate({left:0});});
 	});
+	$('.mob-menu-bu').click(function(){
+		$('html').addClass('noline');
+		$('#header, #main').addClass('noBlur');
+		$('.mob-menu-r').fadeIn(200).css('top',0);
+		$('#header .mob-logbu').animate({left:-50});
+		$('.mob-menu-bu').animate({right:-60},function(){$('.mob-menuclose').animate({right:0});});
+	});
+	
 	$('.mob-logclose').click(function(){
+		$('html').removeClass('noline');
 		$('#header, #main').removeClass('noBlur');
 		$('.mob-avatar').fadeOut(200).css('top',-400);
-		$('.mob-logclose').animate({left:-60},function(){$('#header div.search').css({right:0});$('.mob-logged').animate({left:0});});
+		$('.mob-logclose').animate({left:-60},function(){$('#header .mob-menu-bu').animate({right:0});$('.mob-logged').animate({left:0});});
 	});
+	
+	$('.mob-menuclose').click(function(){
+		$('html').removeClass('noline');
+		$('#header, #main').removeClass('noBlur');
+		$('.mob-menu-r').fadeOut(200).css('top',-400);
+		$('.mob-menuclose').animate({right:-60},function(){$('#header .mob-logbu').animate({left:0});$('.mob-menu-bu').animate({right:0});});
+	});
+	
+	
+	
 	//点击按钮搜索focus
 	$('.search-form label').click(function(){
 		$('div.search').addClass('search-on').focus();
-		$('html').addClass('s-fadeIn');
 		});
 	$(document).on("click",function(e){
 		if($(e.target).parents(".search-form").length == 0)
 		{
 			$('div.search').removeClass('search-on');
-			$('html').removeClass('s-fadeIn');
 		}
 	});
 	//导航栏自动隐藏

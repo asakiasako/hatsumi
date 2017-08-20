@@ -5,10 +5,16 @@
 </head>
 <body <?php body_class();?>>
 <header id="header">
-		<div class="mob-log <?php if(!$user_ID) echo "user-login"; else echo "mob-logged";?> left">
+		<div class="mob-log mob-logbu <?php if(!$user_ID) echo "user-login"; else echo "mob-logged";?> left">
         	<i class="hatsumi">&#xe62a;</i>
         </div>
+        <div class="mob-menu-bu right">
+        	<i class="hatsumi" style="font-size: 21px;line-height: 32px">&#xe618;</i>
+        </div>
         <div class="mob-log mob-logclose">
+        	<i class="hatsumi">&#xe629;</i>
+        </div>
+        <div class="mob-menuclose">
         	<i class="hatsumi">&#xe629;</i>
         </div>
         <?php
@@ -35,7 +41,7 @@
                 </span>
                 <a class="top-uc" href="<?php echo home_url('/author/'.$current_user->ID);?>">个人中心</a>
                 <?php if( current_user_can( 'manage_options' ) ) { ?>
-                <a class="top-uc" href="<?php echo home_url('/admin/');?>">后台管理</a>
+                <a class="top-uc" href="<?php echo home_url('/admin/');?>">后台</a>
                 <?php } ?>
                 <a href="<?php echo wp_logout_url(home_url(add_query_arg(array()))); ?>" class="logout">退出</a>
                 </p>
@@ -49,9 +55,16 @@
         </div>
 </header>
  <div class="mob-avatar">
+ 
+ 
+                
         <?php global $current_user; get_currentuserinfo(); echo um_get_avatar( $current_user->ID , '72' , um_get_avatar_type($current_user->ID)); ?>
         <p class="mob-log-info">
-        <span><?php global $current_user; get_currentuserinfo(); echo $current_user->display_name;?></span><a href="<?php echo wp_logout_url(home_url(add_query_arg(array()))); ?>" class="logout">退出</a>
+        <span><?php global $current_user; get_currentuserinfo(); echo $current_user->display_name;?></span>
+		<?php if( current_user_can( 'manage_options' ) ) { ?>
+                <a href="<?php echo home_url('/admin/');?>" class="logout">后台</a>
+                <?php } ?>
+                <a href="<?php echo wp_logout_url(home_url(add_query_arg(array()))); ?>" class="logout">退出</a>
         </p>
         <div class="mob-menu">
         	<a href="<?php echo home_url('/author/'.$current_user->ID.'/?tab=collect');?>">
@@ -72,5 +85,32 @@
         )); ?>
         </div>
 </div>
-<div class="search-overlay">
+<div class = 'mob-menu-r' style="display:none">
+		<div class="search mobi">
+            <form class="search-form clearfix" method="get" action="<?php bloginfo('home');?>/">
+                <label for="mobi-search"><i class="hatsumi">&#xe618;</i></label>
+                <input class="search-text" name="s" id="mobi-search" type="text" placeholder="搜索..." />
+            </form>
+        </div>
+        <div class="menu-wrapr">
+            <div class="mob-menu">
+                <a href="<?php echo home_url('/category/essay/');?>">
+                    <li><i class="hatsumi">&#xe632;</i><p>杂的文</p></li>
+                    </a>
+                <a href="<?php echo home_url('/category/tech/python/');?>">
+                    <li><i class="hatsumi">&#xe630;</i><p>Python</p></li>
+                    </a>
+                <a href="<?php echo home_url('/category/tech/optical/');?>">
+                    <li><i class="hatsumi">&#xe631;</i><p>光通信</p></li>
+                    </a>
+            </div>
+            <div class="mob-menu">
+            	<a href="<?php echo home_url('/guestbook/');?>">
+                    <li><i class="hatsumi">&#xe635;</i><p>WordPress</p></li>
+                    </a>
+                <a href="<?php echo home_url('/guestbook/');?>">
+                    <li><i class="hatsumi">&#xe62f;</i><p>留言</p></li>
+                    </a>
+            </div>
+        </div>
 </div>

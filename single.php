@@ -21,18 +21,12 @@
             </div>
             <div class="single-center">
             	<div class="sin-author">
-                	<?php echo um_get_avatar( get_the_author_meta( 'ID' ) , '64' , um_get_avatar_type(get_the_author_meta( 'ID' )));?>
-                    <div class="sin-follow" <?php 
-						$auth_id=get_the_author_meta('ID');  
-						global $current_user; get_currentuserinfo(); 
-						$cur_id=$current_user->ID;
-						if ($auth_id==$cur_id) {
-							echo ' style="cursor: default;"><span><i class="fa fa-check"></i>已关注</span>';
-						}
-						else {
-						echo '>'.um_follow_button($auth_id);
-						}
-						?></div>
+                	<?php echo um_get_avatar( get_the_author_meta( 'ID' ) , '64' , um_get_avatar_type(get_the_author_meta( 'ID' )));
+					$user_info = get_userdata(get_the_author_meta( 'ID' ));
+					if ($user_info->um_weixin) {
+					?>
+                    <img class="wec-2wm" src="<?php echo $user_info->um_weixin;?>"/>
+                    <?php }?>
                     <div class="sin-author-info">
                     	<li><?php the_author(); ?></li>
                     	<li><?php the_author_description(); ?></li>

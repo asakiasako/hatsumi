@@ -54,9 +54,13 @@ class hatsumi_siderand extends WP_Widget {
 					$query = new WP_Query( $args );
 					$side_num = 1; while($query->have_posts()) : $query->the_post();?> 
                         <li>
-                        <div class="side-thumb"><img src="<?php echo hatsumi_thumbnail(80,80)?>"/></div>
+                        <div class="side-thumb"><img src="<?php 
+							$side_tmb = hatsumi_thumbnail(80,80);
+							$side_tmb = $side_tmb ? $side_tmb : hatsumi_thumb('http://oss.swiity.com/images/single_default/single-default'.rand(0,7).'.jpg',80,80);
+						echo $side_tmb;
+						?>"/></div>
                         <p class="side-art"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></p>
-                        <p class="side-meta"><?php $ymcat = get_the_category();echo $ymcat[0]->cat_name;?></p>
+                        <p class="side-meta">发表于<?php the_time();?></p>
                         </li>
 					<?php endwhile; wp_reset_postdata();?>
 				</ul>
@@ -122,7 +126,11 @@ class hatsumi_siderecent extends WP_Widget {
 						$side_num = 1; 
 						while($query->have_posts()) : $query->the_post();?> 
                             <li>
-                            	<div class="side-thumb"><img src="<?php echo hatsumi_thumbnail(80,80)?>"/></div>
+                            	<div class="side-thumb"><img src="<?php 
+							$side_tmb = hatsumi_thumbnail(80,80);
+							$side_tmb = $side_tmb ? $side_tmb : hatsumi_thumb('http://oss.swiity.com/images/single_default/single-default'.rand(0,7).'.jpg',80,80);
+						echo $side_tmb;
+						?>"/></div>
                             	<p class="side-art"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></p>
                             	<p class="side-meta">发表于<?php the_time(); ?></p>
                             </li>
@@ -193,7 +201,11 @@ class hatsumi_sidehot extends WP_Widget {
 					$side_num = 1;
                 while( $query->have_posts() ) { $query->the_post(); ?> 
                 <li>
-                	<div class="side-thumb"><img src="<?php echo hatsumi_thumbnail(80,80)?>"/></div>
+                	<div class="side-thumb"><img src="<?php 
+							$side_tmb = hatsumi_thumbnail(80,80);
+							$side_tmb = $side_tmb ? $side_tmb : hatsumi_thumb('http://oss.swiity.com/images/single_default/single-default'.rand(0,7).'.jpg',80,80);
+						echo $side_tmb;
+						?>"/></div>
                         <p class="side-art"><a href="<?php the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a></p>
                         <p class="side-meta"><?php hatsumi_count_comments( false, true);?>个评论&nbsp;&middot;&nbsp;<?php $umlikes=get_post_meta(get_the_ID(),'um_post_likes',true); if(empty($umlikes)) $umlikes=0;echo $umlikes;?>个赞</p>
                     </li> 
