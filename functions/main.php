@@ -210,36 +210,8 @@ remove_filter('wp_mail',		'wp_staticize_emoji_for_email');
 
 //替换头像服务器
 function hatsumi_avatar($avatar) {
-    $avatar = str_replace(array("www.gravatar.com","0.gravatar.com","1.gravatar.com","2.gravatar.com","gravatar.duoshuo.com"),"secure.gravatar.com",$avatar);
-	$avatar = str_replace("http","https",$avatar);
-	
-	$root = get_bloginfo('wpurl');
-	$time = 86400;
-	
-	$tmp = strpos($avatar, 'src=') + 5;
-  	$src1 = substr($avatar, $tmp, strpos($avatar, "'", $tmp) - $tmp);
-	$tmp = strpos($src1, 'avatar/') + 7;
-	$avt1 = substr($src1, $tmp);
-	$avt1 = str_replace('?','_',$avt1);
-	$avt1 = str_replace('&amp;','_',$avt1);
-	$src2 = ABSPATH.'avatar/'.$avt1.'.jpeg';
-	
-	$tmp = strpos($avatar, 'srcset=') + 8;
-	$set1 = substr($avatar, $tmp, strpos($avatar, " ", $tmp) - $tmp);
-	$tmp = strpos($set1, 'avatar/') + 7;
-	$avt2 = substr($set1, $tmp);
-	$avt2 = str_replace('?','_',$avt2);
-	$avt2 = str_replace('&amp;','_',$avt2);
-	$set2 = ABSPATH.'avatar/'.$avt2.'.jpeg';
-	
-	if ( !(is_file($src2) && is_file($set2)) || (time()-filemtime($src2))> $time || (time()-filemtime($set2))>$time ) {
-		copy(htmlspecialchars_decode($src1), $src2);
-		copy(htmlspecialchars_decode($set1), $set2);
-	}
-	else {
-		$avatar = strtr($avatar, array($src1 => $root.'/avatar/'.$avt1.'.jbeg', $set1 => $root.'/avatar/'.$avt2.'.jpeg'));
-		$avatar = str_replace('swiity.com', 'static.swiity.com', $avatar);
-	}
+    $avatar = str_replace(array("www.gravatar.com","0.gravatar.com","1.gravatar.com","2.gravatar.com"),"avatar.swiity.com",$avatar);
+	$avatar = str_replace("https","http",$avatar);
 	
 	return $avatar;
 }

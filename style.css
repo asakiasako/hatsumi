@@ -46,7 +46,7 @@ code, pre {
 }
 pre {
 	padding: 17px;
-	font: 13px/20px sourcecode;
+	font: 13px/20px courier new;
 	position: relative;
 	margin: 24px 0;
 	background-color: #f8f8f8;
@@ -57,7 +57,6 @@ pre {
 }
 pre.term {
 	background-color: rgba(0,0,0,0.9);
-	font-weight: bold;
 	color: rgba(0,255,0,1.00)
 }
 blockquote {
