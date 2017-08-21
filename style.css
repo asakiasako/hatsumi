@@ -4,7 +4,7 @@ Theme URI:http://swiity.com
 Author:夏娜酱拌饭
 Author URI:http://swiity.com
 Description:它们过于洁白过于接近春天
-Version:0.10.4
+Version:0.10.6
 */
 * {
 	-webkit-box-sizing: border-box;
@@ -2225,8 +2225,11 @@ body.page-template-page-links div.post-body, body.page-template-page-guestbook d
 .dashboard .primary .area .page-wrapper {
 	border-left: none;
 }
-.dashboard-header .tip {
+.dashboard-header p.tip {
 	display: none;	
+}
+.user-msg li.tip, .site-order-list li.tip {
+	margin-top: 10px;	
 }
 }
 
