@@ -45,7 +45,7 @@ function hatsumi_scripts(){
 		}
 		
 		if( is_single() ){
-		wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,single.js,view-history.js,single-add.js,OwO.min.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,single.js,view-history.js,single-add.js,highlight.js,OwO.min.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
 		wp_enqueue_style('owo', hatsumi_static('css/OwO.min.css'),array(),HATSUMI_VERSION );
 		}
 
