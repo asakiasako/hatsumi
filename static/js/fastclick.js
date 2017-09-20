@@ -35,34 +35,40 @@ $(function() {
 		$('.mob-menuclose').animate({right:-60},function(){$('#header .mob-logbu').animate({left:0});$('.mob-menu-bu').animate({right:0});});
 	});
 	
+	//搜索框输入文字时样式变化
+	$('#header div.search form.search-form').focusin(function(){
+		$(this).addClass('typing');
+	});
+	$('#header div.search form.search-form').focusout(function(){
+		$(this).removeClass('typing');
+	});
 	
+	//页面向下滚动时header分层
+	$(window).scroll(function(){
+		if($(window).scrollTop()<=2 && $('header').hasClass('scrolled')) {$('header').removeClass('scrolled');}
+		if($(window).scrollTop()>2 && !($('header').hasClass('scrolled'))) {$('header').addClass('scrolled');}
+	});
 	
-	//点击按钮搜索focus
-	$('.search-form label').click(function(){
-		$('div.search').addClass('search-on').focus();
-		});
+	//更多菜单点击展开，点击其他地方关闭
+
 	$(document).on("click",function(e){
-		if($(e.target).parents(".search-form").length == 0)
-		{
-			$('div.search').removeClass('search-on');
+		if (!$('#topnavmore').hasClass('moreopened')) {
+			if($(e.target) == $('#topnavmore')) 
+			{
+				$('#topnavmore').stop().addClass('moreopened').fadeIn(200);
+			}
+		}
+		
+		if ($('#topnavmore').hasClass('moreopened')) {
+			if($(e.target).parents("#topnavmore").length == 0)
+			{
+				$('#topnavmore').stop().removeClass('moreopened').fadeOut(200);
+			}
 		}
 	});
-	//导航栏自动隐藏
-	var hdimg=280;
-	var h_hide=180;
-	var s_before = $(document).scrollTop();
-	$(window).scroll(function(){
-		var htm_sc = $(document).scrollTop();
-		if (htm_sc > h_hide) $('#header').addClass('hd_hide');
-		else $('#header').removeClass('hd_hide');
-		if (htm_sc > s_before) $('#header').addClass('hd_down');
-		else if (htm_sc < hdimg) $('#header').removeClass('hd_down');
-		s_before = htm_sc;
-	});
-
 	
-		
 });
+	
 
 ;(function () {
 	'use strict';

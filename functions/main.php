@@ -111,6 +111,7 @@ if ( function_exists('register_nav_menus') ) {
     register_nav_menus(
         array(
             'top-menu' => __( '顶部菜单' ),
+			'top-menu-more' => __( '顶部菜单扩展' ),
 			'top-menu-mob' => __( '移动设备首页菜单' ),
 			'menu-foo-mob' => __( '移动设备左上弹窗底部链接' )
         )
@@ -334,7 +335,7 @@ function hatsumi_head(){
     <meta name="baidu-site-verification" content="HZLo0l0V0v" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <!-- 各页面Title设定 -->
-    <?php if ( is_home() ) { ?><title><?php bloginfo('name'); ?> - <?php bloginfo('description'); ?></title><?php } ?>
+    <?php if ( is_home() ) { ?><title><?php bloginfo('name'); ?></title><?php } ?>
     <?php if ( is_search() ) { ?><title><?php _e('Search&#34;');the_search_query();echo "&#34;";?> - <?php bloginfo('name'); ?></title><?php } ?>
     <?php if ( is_single() ) { ?><title><?php echo trim(wp_title('',0)); ?> - <?php bloginfo('name'); ?></title><?php } ?>
     <?php if ( is_author() ) { ?><title><?php wp_title(""); ?> - <?php bloginfo('name'); ?></title><?php } ?>
@@ -760,12 +761,10 @@ function hatsumi_rel_post($post_num = 3) {
 }
 
 //禁止直接进入登录页
-/*
 add_action('login_enqueue_scripts','login_protection');
     function login_protection(){
         if($_GET['user'] != 'sdtclass')  header('Location: /');
     }
-*/
 
 //ajax提醒
 function hatsumi_ajax_error($text) { 

@@ -24,14 +24,30 @@
             $logo_sm = $logo_sm ? $logo_sm : hatsumi_static('image/logo-small.png');
         ?>
 		<a class="logo" href="<?php bloginfo('url');?>" alt="<?php bloginfo('name'); ?>"><img src="<?php echo $logo;?>" alt="<?php bloginfo('name'); ?>" /><img class="logo-sm" src="<?php echo $logo_sm;?>" alt="<?php bloginfo('name'); ?>" /></a>
+        <div class="search">
+            <form class="search-form clearfix" method="get" action="<?php bloginfo('home');?>/">
+                <label for="top-search"><i class="hatsumi">&#xe618;</i></label>
+                <input class="search-text" name="s" id="top-search" type="text" placeholder="搜索你感兴趣的内容..." />
+            </form>
+        </div>
 		<?php wp_nav_menu(array(
             'theme_location' => 'top-menu',
             'container' => 'nav',
             'container_id' => 'topnav'
-        )); 
-		
+        )); ?>
+        <div class="more-box">
+		<a class="hatsumi menu-more">&#xe636;</a>
+        <?php
+		wp_nav_menu(array(
+            'theme_location' => 'top-menu-more',
+            'container' => 'nav',
+            'container_id' => 'topnavmore'
+        ));
+		?>
+		</div>
+        <?php
         if(!$user_ID):?>
-        <div class="user-login right">登录</div>
+        <div class="user-login right">登录／注册</div>
         <?php else: ?>
         	<div class="top-avatar log-in right">
                 <?php global $current_user; get_currentuserinfo(); echo um_get_avatar( $current_user->ID , '30' , um_get_avatar_type($current_user->ID));?>
@@ -47,12 +63,6 @@
                 </p>
             </div>
         <?php endif?>
-        <div class="search right">
-            <form class="search-form clearfix" method="get" action="<?php bloginfo('home');?>/">
-                <label for="top-search"><i class="hatsumi">&#xe618;</i></label>
-                <input class="search-text" name="s" id="top-search" type="text" placeholder="搜索..." />
-            </form>
-        </div>
 </header>
  <div class="mob-avatar">
  

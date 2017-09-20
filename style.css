@@ -4,7 +4,7 @@ Theme URI:http://swiity.com
 Author:夏娜酱拌饭
 Author URI:http://swiity.com
 Description:它们过于洁白过于接近春天
-Version:0.10.12
+Version:0.10.19
 */
 * {
 	-webkit-box-sizing: border-box;
@@ -231,9 +231,10 @@ html.ac-no-scroll #header.noBlur, html.ac-no-scroll #main.noBlur {
 	filter: none;
 }
 #header {
+	display: -webkit-flex;
+	display: flex;
 	height: 64px;
 	background: #fff;
-	border-bottom: 1px solid rgba(0,0,0,0.05);
 	width: 100%;
 	position: fixed;
 	z-index: 1000;
@@ -244,12 +245,15 @@ html.ac-no-scroll #header.noBlur, html.ac-no-scroll #main.noBlur {
 	-o-transition: top .4s;
 }
 
-html.noline #header {
-	border-bottom: none;	
+#header.scrolled {
+	-webkit-box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
+	-moz-box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
+	-o-box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
+	box-shadow: 0 2px 2px -2px rgba(0, 0, 0, .15);
 }
 
-#header.hd_hide.hd_down {
-	top:-80px;
+html.noline #header {
+	border-bottom: none;	
 }
 
 html.ac-no-scroll #header {
@@ -391,11 +395,10 @@ div.menu-wrapr .mob-menu {
 	display: none;
 }
 #header nav {
-	float: left;
 	height: 64px;
-	margin: 0 32px 0 64px;
 	max-width: 600px;
 	padding: 0;
+	margin-left: 30px;
 }
 #header nav li {
 	display: inline-block;
@@ -423,13 +426,23 @@ div.menu-wrapr .mob-menu {
 }
 #header nav li ul.sub-menu {
     position: absolute;
-	top: 63px;
+	top: 64px;
 	left: -11px;
-	border-radius: 0 0 4px 4px;
-	border: 1px solid rgba(0, 0, 0, 0.05);
-	border-top: 0;
+	border: 1px solid #eee;
 	background: #fff;
 	display: none;
+}
+#header nav li ul.sub-menu:before {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	right: 100%;
+	bottom: 100%;
+	margin-right: -46px;
+	border-top-width: 0;
+	border-bottom-color: #eee;
 }
 #header nav li.menu-item-has-children:hover ul.sub-menu {
 	display: block;	
@@ -448,15 +461,65 @@ div.menu-wrapr .mob-menu {
 #header nav li ul.sub-menu li a:hover {
 	background: rgba(0,0,0,0.05)
 }
-#header .user-login {
+a.hatsumi.menu-more {
+	display: inline-block;
+	padding: 0 10px;
 	height: 64px;
 	line-height: 64px;
-	font-size: 14px;
-	padding: 0 20px;
-	border-left: 1px solid rgba(0,0,0,0.05);
-	color: rgba(0,0,0,0.7);
+	font-size: 18px;
+	color: rgba(0, 0, 0, 0.4);
+	margin-right: 10px;
 	cursor: pointer;
 }
+.more-box {
+	position: relative;
+}
+#header nav#topnavmore {
+	display:none;
+   	position: absolute;
+	top: 64px;
+	background: #000;
+	left: 0px;
+	height: auto;
+	margin-left: 0;
+}
+#header nav#topnavmore:before {
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	border: 5px solid transparent;
+	right: 100%;
+	bottom: 100%;
+	margin-right: -25px;
+	border-top-width: 0;
+	border-bottom-color: #000;
+}
+#header nav#topnavmore li a {
+    color: #fff;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+}
+#header nav#topnavmore li a:hover {
+	color: #999;	
+	transition: color .2s ease-in-out;
+}
+#header .user-login {
+	height: 32px;
+	line-height: 32px;
+	margin: 16px 0;
+	font-size: 14px;
+	padding: 0 20px;
+	border-left: 1px solid rgba(0, 0, 0, 0.1);
+	color: rgba(0,0,0,0.4);
+	cursor: pointer;
+}
+#header .user-login:hover {
+	color: rgba(0,0,0,0.75)	
+}
+
 .top-avatar.log-in {
 	height: 64px;
 	padding: 17px 0;
@@ -506,43 +569,55 @@ div.menu-wrapr .mob-menu {
 	color: rgba(0,0,0,.75);
 }
 #header div.search {
+	-webkit-flex: 1 0;
+	flex: 1 0;
 	height: 64px;
-	padding: 14px;
+	padding: 12px;
 	transition: all .3s;
 	-moz-transition: all .3s;
 	-webkit-transition: all .3s;
 	-o-transition: all .3s;
 }
 #header div.search label {
+	flex: 0 0;
 	cursor: pointer;
 }
 #header div.search label i {
 	font-size: 18px;
 	display: inline-block;
-	height: 36px;
-	line-height: 34px;
-	color: rgba(0,0,0,0.5);
-	padding: 0 8px;
+	height: 38px;
+	line-height: 36px;
+	color: rgba(0, 0, 0, 0.3);
+	padding: 0 8px 0 15px;
 }
 #header div.search form.search-form {
-	height: 36px;
+	display: -webkit-flex;
+	display: flex;
+	height: 40px;
+	background: rgba(0, 0, 0, 0.05);
+	border-radius: 20px;
+	border: 1px solid transparent 
+}
+#header div.search form.search-form:hover {
+	border: 1px solid rgba(0, 0, 0, 0.1)
+}
+#header div.search form.search-form.typing {
+	background:none;
+	border: 1px solid rgba(0, 0, 0, 0.1)
 }
 #header div.search form.search-form input.search-text {
+	-webkit-flex: 1 0;
+	flex: 1 0;
 	border: none;
 	font-size: 14px;
 	padding: 0;
 	vertical-align: center;
 	color: rgba(0,0,0,0.7);
 	background: transparent;
-	max-width: 0;
 	transition: max-width .3s;
 	-moz-transition: max-width .3s;
 	-webkit-transition: max-width .3s;
 	-o-transition: max-width .3s;
-}
-#header div.search.search-on form.search-form input.search-text {
-	max-width: 176px;
-	width: 176px;
 }
 
 div.search.mobi {
