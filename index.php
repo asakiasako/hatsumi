@@ -1,11 +1,6 @@
 <?php get_header();?>
     <div id="main">
 		<?php hatsumi_headimg();?>
-        <?php wp_nav_menu(array(
-            'theme_location' => 'top-menu-mob',
-            'container' => 'nav',
-            'container_id' => 'topnav-small'
-        )); ?>
         <div id="main-wrap" class="clearfix">
         <?php get_sidebar(); ?>
         <div id="content">

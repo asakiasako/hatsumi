@@ -37,13 +37,19 @@
         )); ?>
         <div class="more-box">
 		<a class="hatsumi menu-more">&#xe636;</a>
-        <?php
-		wp_nav_menu(array(
-            'theme_location' => 'top-menu-more',
-            'container' => 'nav',
-            'container_id' => 'topnavmore'
-        ));
-		?>
+        <nav id="topnavmore">
+			<?php 
+            wp_nav_menu(array(
+                'theme_location' => 'top-menu-mob',
+                'container' => 'ul',
+                'menu_id' => 'topnav-small'
+            ));
+            wp_nav_menu(array(
+                'theme_location' => 'top-menu-more',
+                'container' => 'ul'
+            ));
+            ?>
+        </nav>
 		</div>
         <?php
         if(!$user_ID):?>
@@ -55,12 +61,22 @@
                 <span class="usr-name">
             	    <?php global $current_user; get_currentuserinfo(); echo $current_user->display_name;?>
                 </span>
-                <a class="top-uc" href="<?php echo home_url('/author/'.$current_user->ID);?>">个人中心</a>
-                <?php if( current_user_can( 'manage_options' ) ) { ?>
-                <a class="top-uc" href="<?php echo home_url('/admin/');?>">后台</a>
-                <?php } ?>
-                <a href="<?php echo wp_logout_url(home_url(add_query_arg(array()))); ?>" class="logout">退出</a>
                 </p>
+                <div class="user-menu">
+                	<ul>
+                    	<li>
+                        	<a class="top-uc" href="<?php echo home_url('/author/'.$current_user->ID);?>">个人中心</a>
+                        </li>
+                        <?php if( current_user_can( 'manage_options' ) ) { ?>
+                        <li>
+                        	<a class="top-uc" href="<?php echo home_url('/admin/');?>">后台管理</a>
+                        </li>
+                        <?php } ?>
+                        <li>
+                        	<a href="<?php echo wp_logout_url(home_url(add_query_arg(array()))); ?>" class="logout">退出</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         <?php endif?>
 </header>

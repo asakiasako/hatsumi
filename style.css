@@ -4,7 +4,7 @@ Theme URI:http://swiity.com
 Author:夏娜酱拌饭
 Author URI:http://swiity.com
 Description:它们过于洁白过于接近春天
-Version:0.10.19
+Version:0.10.36
 */
 * {
 	-webkit-box-sizing: border-box;
@@ -265,6 +265,7 @@ html.ac-no-scroll #header {
 	position: absolute;
 	left: 0;
 	top: 0;
+	margin: 0;
 	background: #fff;
 	height: 56px;
 	padding: 10px 14px;
@@ -398,7 +399,7 @@ div.menu-wrapr .mob-menu {
 	height: 64px;
 	max-width: 600px;
 	padding: 0;
-	margin-left: 30px;
+	margin-left: 20px;
 }
 #header nav li {
 	display: inline-block;
@@ -424,7 +425,7 @@ div.menu-wrapr .mob-menu {
 #header nav li.current-menu-item a {
 	color: rgba(0,0,0,0.75);
 }
-#header nav li ul.sub-menu {
+#header nav li ul.sub-menu, #header nav#topnavmore, div.user-menu {
     position: absolute;
 	top: 64px;
 	left: -11px;
@@ -432,7 +433,7 @@ div.menu-wrapr .mob-menu {
 	background: #fff;
 	display: none;
 }
-#header nav li ul.sub-menu:before {
+#header nav li ul.sub-menu:before, #header nav#topnavmore:before, div.user-menu:before {
 	content: "";
 	position: absolute;
 	width: 0;
@@ -447,19 +448,20 @@ div.menu-wrapr .mob-menu {
 #header nav li.menu-item-has-children:hover ul.sub-menu {
 	display: block;	
 }
-#header nav li ul.sub-menu li {
+#header nav li ul.sub-menu li, #header nav#topnavmore li, div.user-menu li {
 	display: block;
 	margin: 0;
 	padding: 0;
 }
-#header nav li ul.sub-menu li a {
+#header nav li ul.sub-menu li a, #header nav#topnavmore li a, div.user-menu li a {
 	line-height: 45px;
 	height: 45px;
-	min-width: 108px;
+	min-width: 120px;
 	padding: 0 20px
 }
-#header nav li ul.sub-menu li a:hover {
-	background: rgba(0,0,0,0.05)
+#header nav li ul.sub-menu li a:hover, #header nav#topnavmore li a:hover, div.user-menu li a:hover {
+	background: rgba(0,0,0,0.05);
+	transition: background .2s ease-in-out;
 }
 a.hatsumi.menu-more {
 	display: inline-block;
@@ -475,37 +477,19 @@ a.hatsumi.menu-more {
 	position: relative;
 }
 #header nav#topnavmore {
-	display:none;
-   	position: absolute;
-	top: 64px;
-	background: #000;
-	left: 0px;
 	height: auto;
 	margin-left: 0;
+	left: -14px;
 }
 #header nav#topnavmore:before {
 	content: "";
-	position: absolute;
-	width: 0;
-	height: 0;
-	border: 5px solid transparent;
-	right: 100%;
-	bottom: 100%;
-	margin-right: -25px;
-	border-top-width: 0;
-	border-bottom-color: #000;
+	margin-right: -36px;
 }
-#header nav#topnavmore li a {
-    color: #fff;
-    width: 100px;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 20px;
+
+ul#topnav-small {
+	display: none;
 }
-#header nav#topnavmore li a:hover {
-	color: #999;	
-	transition: color .2s ease-in-out;
-}
+
 #header .user-login {
 	height: 32px;
 	line-height: 32px;
@@ -521,9 +505,10 @@ a.hatsumi.menu-more {
 }
 
 .top-avatar.log-in {
+	cursor: pointer;
 	height: 64px;
-	padding: 17px 0;
-	padding-right: 24px;
+	padding: 17px 5px;
+	margin-right: 19px;
 }
 .top-avatar.log-in img.avatar {
 	height: 30px;
@@ -542,32 +527,35 @@ a.hatsumi.menu-more {
 	margin-left: 8px;
 	white-space: nowrap;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 112px;
 	max-width: 0;
 	transition: all .5s;
 	-moz-transition: all .5s;
 	-webkit-transition: all .5s;
 	-o-transition: all .5s;
 }
+.top-log-info.user-open {
+	max-width: 112px;
+}
+div.user-menu {
+    right: 18px;
+	left: auto;
+	top: 70px;
+}
+div.user-menu:before {
+	margin-right: -22px;
+}
+div.user-menu li a {
+	display: block;
+	font-size: 14px;
+	color: rgba(0, 0, 0, 0.4);	
+	width: 154px;
+}
 .top-log-info .usr-name {
 	font-weight: 500;
 }
-.top-avatar.log-in:hover .top-log-info {
-	max-width: 320px;
-}
-.top-uc {
-	margin-left: 10px;
-	color: rgba(0,0,0,0.6);
-}
-.top-uc:hover {
-	color: rgba(0,0,0,.75);
-}
-.top-log-info .logout {
-	color: rgba(0,0,0,0.6);
-	margin-left: 10px;
-}
-.top-log-info .logout:hover {
-	color: rgba(0,0,0,.75);
-}
+
 #header div.search {
 	-webkit-flex: 1 0;
 	flex: 1 0;
@@ -608,6 +596,7 @@ a.hatsumi.menu-more {
 #header div.search form.search-form input.search-text {
 	-webkit-flex: 1 0;
 	flex: 1 0;
+	width: 100%;
 	border: none;
 	font-size: 14px;
 	padding: 0;
@@ -718,33 +707,7 @@ div.head-img.home>div {
 	background-size: cover;
 	background-position: center;
 }
-#topnav-small {
-	display: none;
-	height: 55px;
-	overflow: hidden;
-	text-align: center;
-	background: #fff;
-	border-bottom: 1px solid rgba(0,0,0,0.05);
-}
-#topnav-small ul {
-	padding: 0 24px 80px;
-	white-space: nowrap;
-	text-align: center;
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
-}
-#topnav-small li {
-	display: inline-block;
-	line-height: 54px;
-	padding: 0 8px;
-	font-size: 14px;
-}
-#topnav-small li a {
-	color: rgba(0,0,0,0.4);
-}
-#topnav-small li.current-menu-item a {
-	color: rgba(0,0,0,0.75);
-}
+
 #content li.post {
 	position: relative;
 	display: block;
@@ -2362,9 +2325,6 @@ body.page-template-page-links div.post-body, body.page-template-page-guestbook d
 	width: 100%;
 	padding: 0 60px;
 }
-#header nav {
-	margin: 0 0 0 32px;
-}
 }
 @media screen and (max-width:960px) {
 #container {
@@ -2382,7 +2342,7 @@ aside#sidebar-area {
 #header nav {
 	display: none;
 }
-#topnav-small {
+ul#topnav-small {
 	display: block;
 }
 body.page-template-page-links div.post-body, body.page-template-page-guestbook div.post-body {
@@ -2518,7 +2478,7 @@ body.page-template-page-guestbook #respond {
 	padding: 20px 16px 40px;
 }
 
-#topnav-small {
+ul#topnav-small {
 	display: none;
 }
 h1, h2 {
@@ -2578,6 +2538,7 @@ div.head-img.home>div {
 	padding-bottom: 0;	
 }
 #header {
+	display: block;
 	text-align: center;
 }
 #header a.logo img {
@@ -2588,7 +2549,9 @@ div.head-img.home>div {
 	float: none;
 	margin-left: 0;
 }
-
+.more-box {
+	display: none;
+}
 #main {
 	padding-top: 56px;	
 }

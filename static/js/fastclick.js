@@ -50,22 +50,44 @@ $(function() {
 	});
 	
 	//更多菜单点击展开，点击其他地方关闭
-
-	$(document).on("click",function(e){
+	$('.menu-more').click(function(){
 		if (!$('#topnavmore').hasClass('moreopened')) {
-			if($(e.target) == $('#topnavmore')) 
-			{
-				$('#topnavmore').stop().addClass('moreopened').fadeIn(200);
-			}
+			$('#topnavmore').stop().addClass('moreopened').fadeIn(200);
 		}
-		
+		else {
+			$('#topnavmore').stop().removeClass('moreopened').fadeOut(200);	
+		}
+	});
+	
+	$(document).on("click",function(e){
 		if ($('#topnavmore').hasClass('moreopened')) {
-			if($(e.target).parents("#topnavmore").length == 0)
+			if($(e.target).parents(".more-box").length == 0)
 			{
 				$('#topnavmore').stop().removeClass('moreopened').fadeOut(200);
 			}
 		}
 	});
+	
+	//点击用户头像展开列表
+	$('.top-avatar.log-in').click(function(){
+		if (!$('.top-log-info').hasClass('user-open')) {
+			$('.top-avatar.log-in').css('cursor','auto');
+			$('.top-log-info').addClass('user-open');
+			$('div.user-menu').stop().css({'display': 'block', 'opacity': '0'}).animate({top: '80', opacity: '1'}, 400);
+		}
+	});
+	
+	$(document).on("click",function(e){
+		if ($('.top-log-info').hasClass('user-open')) {
+			if($(e.target).parents(".top-avatar.log-in").length == 0) {
+				$('.top-avatar.log-in').css('cursor','pointer');
+				$('div.user-menu').stop().animate({top: '70', opacity: '0'}, 400);
+				$('.top-log-info').delay(200).removeClass('user-open');
+			}
+		}
+	});
+	
+	
 	
 });
 	
