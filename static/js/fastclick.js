@@ -81,7 +81,7 @@ $(function() {
 		if ($('.top-log-info').hasClass('user-open')) {
 			if($(e.target).parents(".top-avatar.log-in").length == 0) {
 				$('.top-avatar.log-in').css('cursor','pointer');
-				$('div.user-menu').stop().animate({top: '70', opacity: '0'}, 400);
+				$('div.user-menu').stop().animate({top: '70', opacity: '0'}, 400, null, function(){$('div.user-menu').css({'display': 'none', 'opacity': '0'})});
 				$('.top-log-info').delay(200).removeClass('user-open');
 			}
 		}
