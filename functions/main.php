@@ -316,12 +316,15 @@ function hatsumi_head(){
     <meta name="baidu-site-verification" content="HZLo0l0V0v" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <!-- favicon设置 -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=00QanoxxN9">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png?v=00QanoxxN9">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png?v=00QanoxxN9">
-    <link rel="manifest" href="/favicons/manifest.json?v=00QanoxxN9">
-    <link rel="shortcut icon" href="/favicons/favicon.ico?v=00QanoxxN9">
-    <meta name="msapplication-config" content="/favicons/browserconfig.xml?v=00QanoxxN9">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=694YXP3w2N">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png?v=694YXP3w2N">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png?v=694YXP3w2N">
+    <link rel="manifest" href="/favicons/manifest.json?v=694YXP3w2N">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg?v=694YXP3w2N" color="#e5432e">
+    <link rel="shortcut icon" href="/favicons/favicon.ico?v=694YXP3w2N">
+    <meta name="apple-mobile-web-app-title" content="Swiity">
+    <meta name="application-name" content="Swiity">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml?v=694YXP3w2N">
     <meta name="theme-color" content="#ffffff">
     <!-- 各页面Title设定 -->
     <?php 
