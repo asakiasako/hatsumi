@@ -335,7 +335,11 @@ function hatsumi_head(){
     <meta name="baidu-site-verification" content="HZLo0l0V0v" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <!-- 各页面Title设定 -->
-    <?php if ( is_home() ) { ?><title><?php bloginfo('name'); ?></title><?php } ?>
+    <?php 
+		global $current_user;
+		$ur_msg = intval(get_um_message($current_user->ID, 'count', "msg_type='unread' OR msg_type='unrepm'"));
+		$ur_msg_count = $ur_msg ==0 ? '' : ' ('.$ur_msg.'条新消息)';?>
+    <?php if ( is_home() ) { ?><title><?php bloginfo('name');echo $ur_msg_count; ?></title><?php } ?>
     <?php if ( is_search() ) { ?><title><?php _e('Search&#34;');the_search_query();echo "&#34;";?> - <?php bloginfo('name'); ?></title><?php } ?>
     <?php if ( is_single() ) { ?><title><?php echo trim(wp_title('',0)); ?> - <?php bloginfo('name'); ?></title><?php } ?>
     <?php if ( is_author() ) { ?><title><?php wp_title(""); ?> - <?php bloginfo('name'); ?></title><?php } ?>
@@ -380,8 +384,6 @@ function hatsumi_head(){
     }
     $keywords = trim(strip_tags($keywords));
     $description = trim(strip_tags($description));
-    $favicon = hatsumi_get_option( 'favicon' );
-    $favicon = $favicon ? $favicon : hatsumi_static('image/favicon.png');
     ?>
     <script type="text/x-mathjax-config">
 	MathJax.Hub.Config({
@@ -399,7 +401,6 @@ function hatsumi_head(){
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
 	<meta http-equiv="Cache-Control" content="no-transform" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="Shortcut Icon" href="<?php echo $favicon;?>" type="image/x-icon" />
     <?php wp_head(); ?>
     <?php 
  }

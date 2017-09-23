@@ -56,7 +56,16 @@
         <div class="user-login right">登录／注册</div>
         <?php else: ?>
         	<div class="top-avatar log-in right">
-                <?php global $current_user; get_currentuserinfo(); echo um_get_avatar( $current_user->ID , '30' , um_get_avatar_type($current_user->ID));?>
+            	<span style="position: relative;display: inline-block;height: 64px;">
+					<?php global $current_user; get_currentuserinfo(); echo um_get_avatar( $current_user->ID , '30' , um_get_avatar_type($current_user->ID));?>
+                    <?php
+						$ur_msg = intval(get_um_message($current_user->ID, 'count', "msg_type='unread' OR msg_type='unrepm'"));
+						$ur_msg_count = $ur_msg ==0 ? '' : '('.$ur_msg.')';
+						if ($ur_msg_count != '') {
+					?>
+                    <span id="msg-alm"></span>
+                    <?php } ?>
+                </span>
                 <p class="top-log-info">
                 <span class="usr-name">
             	    <?php global $current_user; get_currentuserinfo(); echo $current_user->display_name;?>
@@ -65,15 +74,21 @@
                 <div class="user-menu">
                 	<ul>
                     	<li>
-                        	<a class="top-uc" href="<?php echo home_url('/author/'.$current_user->ID);?>">个人中心</a>
+                        	<a class="top-uc" href="<?php echo home_url('/author/'.$current_user->ID.'/?tab=message');?>">消息<span style="color: #ff6a4d"><?php echo $ur_msg_count ?></span><i class="fa fa-envelope"></i></a>
+                        </li>
+                    	<li>
+                        	<a class="top-uc" href="<?php echo home_url('/author/'.$current_user->ID);?>">个人中心<i class="fa fa-tachometer"></i></a>
+                        </li>
+                        <li>
+                        	<a class="top-uc" href="<?php echo home_url('/author/'.$current_user->ID.'/?tab=profile');?>">修改资料<i class="fa fa-cog"></i></a>
                         </li>
                         <?php if( current_user_can( 'manage_options' ) ) { ?>
                         <li>
-                        	<a class="top-uc" href="<?php echo home_url('/admin/');?>">后台管理</a>
+                        	<a class="top-uc" href="<?php echo home_url('/admin/');?>">后台管理<i class="fa fa-cube"></i></a>
                         </li>
                         <?php } ?>
                         <li>
-                        	<a href="<?php echo wp_logout_url(home_url(add_query_arg(array()))); ?>" class="logout">退出</a>
+                        	<a href="<?php echo wp_logout_url(home_url(add_query_arg(array()))); ?>" class="logout">退出<i class="fa fa-power-off"></i></a>
                         </li>
                     </ul>
                 </div>
