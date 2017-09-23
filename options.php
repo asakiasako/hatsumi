@@ -115,15 +115,7 @@ function optionsframework_options() {
 		'placeholder' => '用一段话简要描述你的网站',
 		'type' => 'textarea'
 	);
-		
-	$options[] = array(
-		'name' => __( 'favicon' ),
-		'desc' => __( '请上传一张图片作为网站的favicon图标' ),
-		'id' => 'favicon',
-		'type' => 'upload'
-	);	
-	
-		
+			
 	$options[] = array(
 		'name' => __( '首页横幅' ),
 		'desc' => __( '请上传一张图片作为网站的首页横幅' ),

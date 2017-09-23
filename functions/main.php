@@ -129,26 +129,7 @@ if ( function_exists('register_sidebar') ){
         'before_title' => '<h3 class="widgettitle"><span></span>',
         'after_title' => '</h3>'
     ));
-	/*
-	register_sidebar(array(
-        'name'=>'顶部区域',
-        'id' => 'head-area',
-		'description' => '显示在首页中内容列表之前',
-        'before_widget' => '<ul class="widget-container"><li id="%1$s" class="widget %2$s">',
-        'after_widget' => '</li></ul>',
-        'before_title' => '<h3 class="widgettitle"><span></span>',
-        'after_title' => '</h3>'
-    ));
-		register_sidebar(array(
-        'name'=>'底部区域',
-		'description' => '在底栏中显示（所有页面）',
-        'id' => 'foot-area',
-        'before_widget' => '<ul class="widget-container"><li id="%1$s" class="widget %2$s">',
-        'after_widget' => '</li></ul>',
-        'before_title' => '<h3 class="widgettitle"><span></span>',
-        'after_title' => '</h3>'
-    ));
-	*/
+	
 }
 
 //编辑器添加自定义标签
@@ -334,6 +315,14 @@ function hatsumi_head(){
     <meta property="wb:webmaster" content="9209080a81408994" />
     <meta name="baidu-site-verification" content="HZLo0l0V0v" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
+    <!-- favicon设置 -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=00QanoxxN9">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png?v=00QanoxxN9">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png?v=00QanoxxN9">
+    <link rel="manifest" href="/favicons/manifest.json?v=00QanoxxN9">
+    <link rel="shortcut icon" href="/favicons/favicon.ico?v=00QanoxxN9">
+    <meta name="msapplication-config" content="/favicons/browserconfig.xml?v=00QanoxxN9">
+    <meta name="theme-color" content="#ffffff">
     <!-- 各页面Title设定 -->
     <?php 
 		global $current_user;
