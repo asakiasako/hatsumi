@@ -316,15 +316,17 @@ function hatsumi_head(){
     <meta name="baidu-site-verification" content="HZLo0l0V0v" />
     <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
     <!-- favicon设置 -->
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png?v=694YXP3w2N">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png?v=694YXP3w2N">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png?v=694YXP3w2N">
-    <link rel="manifest" href="/favicons/manifest.json?v=694YXP3w2N">
-    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg?v=694YXP3w2N" color="#e5432e">
-    <link rel="shortcut icon" href="/favicons/favicon.ico?v=694YXP3w2N">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png?v=yyaOKqpOwm">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png?v=yyaOKqpOwm">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png?v=yyaOKqpOwm">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png?v=yyaOKqpOwm">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png?v=yyaOKqpOwm">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=yyaOKqpOwm">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=yyaOKqpOwm">
+    <link rel="manifest" href="/manifest.json?v=yyaOKqpOwm">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg?v=yyaOKqpOwm" color="#e5432e">
     <meta name="apple-mobile-web-app-title" content="Swiity">
     <meta name="application-name" content="Swiity">
-    <meta name="msapplication-config" content="/favicons/browserconfig.xml?v=694YXP3w2N">
     <meta name="theme-color" content="#ffffff">
     <!-- 各页面Title设定 -->
     <?php 
@@ -752,12 +754,13 @@ function hatsumi_rel_post($post_num = 3) {
 	if ($i == 0) return;
     echo '</ul>';
 }
-
+/*
 //禁止直接进入登录页
 add_action('login_enqueue_scripts','login_protection');
     function login_protection(){
         if($_GET['user'] != 'sdtclass')  header('Location: /');
     }
+*/
 
 //ajax提醒
 function hatsumi_ajax_error($text) { 

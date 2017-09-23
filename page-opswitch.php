@@ -10,15 +10,23 @@ get_header();
                 <h2>光功率单位换算</h2>
                 <p class="tips">请在等式一边输入数字，另一边会实时显示换算结果。</p>
                 <p class="exm">例如：2.38, 0x0A, 1E-10</p>
-                <div>
-             	   <input id="dbm"/><span>dbm = </span><input id = "mw"/><span>mW</span>
+                <div class = "tool-flex">
+             	   <input id="dbm"/><span>dbm =&nbsp;</span><input id = "mw"/><span>mW</span>
+                </div>
+            </div>
+            <div class = "tool-box clearfix">
+                <h2>波长/频率换算</h2>
+                <p class="tips">请在等式一边输入数字，另一边会实时显示换算结果。</p>
+                <p class="exm">例如：2.38, 0x0A, 1E-10</p>
+                <div class = "tool-flex">
+             	   <input id="nm"/><span>nm =&nbsp;</span><input id = "thz"/><span>THz</span>
                 </div>
             </div>
             <div class = "tool-box clearfix">
                 <h2>光强(OP)/ER/OMA换算(NRZ)</h2>
-                <p class="tips">点击对应按钮，通过其它两个参数计算结果。(支持单位：mW，dBm)</p>
+                <p class="tips">点击对应按钮，通过其它两个参数计算结果。(单位：dBm&amp;dB)</p>
                 <p class="exm">例如：2.38, 0x0A, 1E-10</p>
-                <ul class="coma">
+                <ul class="coma tool-flex">
                 	<li>
                     	<p class="m-title">OP</p>
                     	<p class="m-input"><input id="op"/><span>dBm</span></p>
@@ -41,9 +49,9 @@ get_header();
     </div>
 </div>
 <script type="text/javascript">
-	/* Trans dBm -> mW */
 	$(function() {
 		$('html').attr('style','height: 100%');
+		/* Trans dBm -> mW */
 		$('#dbm').change(function(){
 			var _self = $(this);
 			var dBm_Val = $.trim(_self.val());
@@ -72,6 +80,37 @@ get_header();
 				}
 			}
 			$('#dbm').val(dBm_Val);
+		});
+		
+		/* Trans nm -> THz */
+		$('#nm').change(function(){
+			var _self = $(this);
+			var nm_Val = $.trim(_self.val());
+			if (nm_Val == '') var thz_Val = '';
+			else {
+				nm_Val = Number(nm_Val);
+				if (isNaN(nm_Val)) var thz_Val = 'Err: Not a Number';
+				else {
+					var thz_Val = 299792.458/nm_Val;
+					thz_Val = Math.round(100000000*thz_Val)/100000000;
+				}
+			}
+			$('#thz').val(thz_Val);
+		});
+		/* Trans THz -> nm */
+		$('#thz').change(function(){
+			var _self = $(this);
+			var thz_Val = $.trim(_self.val());
+			if (thz_Val == '') var nm_Val = '';
+			else {
+				thz_Val = Number(thz_Val);
+				if (isNaN(thz_Val)) var nm_Val = 'Err: Not a Number';
+				else {
+					var nm_Val = 299792.458/thz_Val;
+					nm_Val = Math.round(100000000*nm_Val)/100000000;
+				}
+			}
+			$('#nm').val(nm_Val);
 		});
 		
 		/* Trans between OMA, ER, OP */

@@ -132,8 +132,8 @@ function optionsframework_options() {
 	
 	$options[] = array(
 		'name' => __( 'LOGO(小)' ),
-		'desc' => __( '请上传一张图片作为网站LOGO(小，用于手机等小屏设备)' ),
-		'id' => 'logo-small',
+		'desc' => __( '请上传一张图片作为网站LOGO, 只包含文字' ),
+		'id' => 'logo-txt',
 		'type' => 'upload'
 	);	
 		

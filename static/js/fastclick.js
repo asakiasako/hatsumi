@@ -87,8 +87,38 @@ $(function() {
 		}
 	});
 	
+	//点击展开常规登录
+	$("p.normlog-tip").click(function(){
+		if ($(this).hasClass('on-social')) {
+			$('#log-inner-wrap').animate({height: '224'}, 700);
+			$("div.social-wrap").fadeOut(300, null, function(){$("div.normlog-wrap").fadeIn(400);});
+			$(this).removeClass("on-social").addClass("on-normlog").html("通过社交账号登录");
+		}
+		else if ($(this).hasClass('on-normlog')) {
+			$('#log-inner-wrap').animate({height: '130'}, 700);
+			$("div.normlog-wrap").fadeOut(300, null, function(){$("div.social-wrap").fadeIn(400);});
+			$(this).removeClass("on-normlog").addClass("on-social").html("通过邮箱注册或登录");
+		}
+		else if ($(this).hasClass('on-normreg')) {
+			$('#log-inner-wrap').animate({height: '130'}, 700);
+			$("div.normreg-wrap").fadeOut(300, null, function(){$("div.social-wrap").fadeIn(400);});
+			$(this).removeClass("on-normreg").addClass("on-social").html("通过邮箱注册或登录");
+		}
+		});
+		
+	$("#register-active").click(function(){
+			$('#log-inner-wrap').animate({height: '357'}, 700);
+			$("div.normlog-wrap").fadeOut(300, null, function(){$("div.normreg-wrap").fadeIn(400);});
+			$('p.normlog-tip').removeClass("on-normlog").addClass("on-normreg").html("通过社交账号登录");
+		});
 	
+	$("#login-active").click(function(){
+			$('#log-inner-wrap').animate({height: '224'}, 700);
+			$("div.normreg-wrap").fadeOut(300, null, function(){$("div.normlog-wrap").fadeIn(400);});
+			$('p.normlog-tip').removeClass("on-normreg").addClass("on-normlog").html("通过社交账号登录");
+		});
 	
+//jquery end	
 });
 	
 

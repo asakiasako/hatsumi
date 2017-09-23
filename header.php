@@ -20,7 +20,7 @@
         <?php
             $logo = hatsumi_get_option( 'logo' );
             $logo = $logo ? $logo : hatsumi_static('image/logo.png');
-			$logo_sm = hatsumi_get_option( 'logo-small' );
+			$logo_sm = hatsumi_get_option( 'logo-txt' );
             $logo_sm = $logo_sm ? $logo_sm : hatsumi_static('image/logo-small.png');
         ?>
 		<a class="logo" href="<?php bloginfo('url');?>" alt="<?php bloginfo('name'); ?>"><img src="<?php echo $logo;?>" alt="<?php bloginfo('name'); ?>" /><img class="logo-sm" src="<?php echo $logo_sm;?>" alt="<?php bloginfo('name'); ?>" /></a>
