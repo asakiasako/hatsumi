@@ -238,8 +238,8 @@ if ( version_compare( $GLOBALS['wp_version'], '4.4-alpha', '<' ) ) {
 if(!function_exists('fa_ajax_comment_scripts')) :
 
     function fa_ajax_comment_scripts(){
-        wp_enqueue_style( 'ajax-comment', get_template_directory_uri() . '/static/css/ajax-com.css', array(), AC_VERSION );
-        wp_enqueue_script( 'ajax-comment', get_template_directory_uri() . '/static/js/ajax-com.js', array( 'jquery' ), true );
+        wp_enqueue_style( 'ajax-comment', get_template_directory_uri() . '/static/css/ajax-com.css', array(), HATSUMI_VERSION );
+        wp_enqueue_script( 'ajax-comment', get_template_directory_uri() . '/static/js/ajax-com.js', array( 'jquery' ),HATSUMI_VERSION,true );
         wp_localize_script( 'ajax-comment', 'ajaxcomment', array(
             'ajax_url'   => admin_url('admin-ajax.php'),
             'order' => get_option('comment_order'),
@@ -602,6 +602,50 @@ function hatsumi_search_highlight($buffer){
         }
     }
     return $buffer;
+}
+
+//获取用户ip
+function get_user_ip()
+{
+	$user_ip = $_SERVER['REMOTE_ADDR'];
+	return $user_ip;	
+}
+
+/**
+  * 获取Bing每日壁纸和故事
+  */
+function bingImgFetch(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'User-Agent: Mozilla/5.0 (Windows NT 6.2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36'
+    ));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $re = curl_exec($ch);
+    curl_close($ch);
+    $re = json_decode($re,1);//电脑版返回内容
+    $re2 = json_decode(file_get_contents('http://cn.bing.com/cnhp/coverstory/'),1);//移动版返回内容
+    return array(
+    	/* 更改图片尺寸，减小体积 */
+        'url' => 'http://cn.bing.com'.$re['images'][0]['url'],
+        /* 结束日期 */
+        'date' => date('j',strtotime($re['images'][0]['enddate'])),
+        /* 故事标题 */
+        'title' => $re2['title'],
+        /* 内容 */
+        'd' => $re2['para1']
+    );
+}
+
+//通过获取天气（京东）和ip信息
+function get_weather($ip){
+	$re = json_decode(file_get_contents('https://way.jd.com/he/freeweather?city='.$ip.'&appkey=341e8d37026e5cdd0d88c19aa12598b5'),1);
+	return array(
+		'now' => $re['result']['HeWeather5'][0]['now']['cond']['txt'],
+		'city' => $re['result']['HeWeather5'][0]['basic']['city'],
+		'qlty' => $re['result']['HeWeather5'][0]['aqi']['city']['qlty'],
+		'drsg' => $re['result']['HeWeather5'][0]['suggestion']['drsg']['txt']
+		);
 }
 
 //文章页底部来源及版权信息

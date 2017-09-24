@@ -87,36 +87,46 @@ $(function() {
 		}
 	});
 	
-	//点击展开常规登录
+	//登录框交互
 	$("p.normlog-tip").click(function(){
 		if ($(this).hasClass('on-social')) {
-			$('#log-inner-wrap').animate({height: '224'}, 700);
+			$('#log-inner-wrap').animate({height: $('.normlog-wrap').height()}, 700, function(){$('#log-inner-wrap').height('auto');});
 			$("div.social-wrap").fadeOut(300, null, function(){$("div.normlog-wrap").fadeIn(400);});
 			$(this).removeClass("on-social").addClass("on-normlog").html("通过社交账号登录");
 		}
 		else if ($(this).hasClass('on-normlog')) {
-			$('#log-inner-wrap').animate({height: '130'}, 700);
+			$('#log-inner-wrap').animate({height: $('.social-wrap').height()}, 700, function(){$('#log-inner-wrap').height('auto');});
 			$("div.normlog-wrap").fadeOut(300, null, function(){$("div.social-wrap").fadeIn(400);});
 			$(this).removeClass("on-normlog").addClass("on-social").html("通过邮箱注册或登录");
 		}
 		else if ($(this).hasClass('on-normreg')) {
-			$('#log-inner-wrap').animate({height: '130'}, 700);
+			$('#log-inner-wrap').animate({height: $('.social-wrap').height()}, 700, function(){$('#log-inner-wrap').height('auto');});
 			$("div.normreg-wrap").fadeOut(300, null, function(){$("div.social-wrap").fadeIn(400);});
 			$(this).removeClass("on-normreg").addClass("on-social").html("通过邮箱注册或登录");
 		}
 		});
 		
 	$("#register-active").click(function(){
-			$('#log-inner-wrap').animate({height: '357'}, 700);
+			$('#log-inner-wrap').animate({height: $('.normreg-wrap').height()}, 700, function(){$('#log-inner-wrap').height('auto');});
 			$("div.normlog-wrap").fadeOut(300, null, function(){$("div.normreg-wrap").fadeIn(400);});
 			$('p.normlog-tip').removeClass("on-normlog").addClass("on-normreg").html("通过社交账号登录");
 		});
 	
 	$("#login-active").click(function(){
-			$('#log-inner-wrap').animate({height: '224'}, 700);
+			$('#log-inner-wrap').animate({height: $('.normlog-wrap').height()}, 700, function(){$('#log-inner-wrap').height('auto');});
 			$("div.normreg-wrap").fadeOut(300, null, function(){$("div.normlog-wrap").fadeIn(400);});
 			$('p.normlog-tip').removeClass("on-normreg").addClass("on-normlog").html("通过社交账号登录");
 		});
+		
+	//点击其它地方推出登录框
+	
+	$('.overlay-login').on("click",function(e){
+			if($(e.target).parents(".logbox-def").length == 0 && $(e.target).filter(".logbox-def").length == 0) {
+				$("body").removeClass("fadeIn");
+				$("html").removeClass("ac-no-scroll");
+				$("div.overlay-login").addClass('hidden');
+			}
+	});
 	
 //jquery end	
 });

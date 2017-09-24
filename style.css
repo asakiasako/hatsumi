@@ -4,7 +4,7 @@ Theme URI:http://swiity.com
 Author:夏娜酱拌饭
 Author URI:http://swiity.com
 Description:它们过于洁白过于接近春天
-Version:0.11.0
+Version:0.11.10
 */
 * {
 	-webkit-box-sizing: border-box;
@@ -662,11 +662,10 @@ div.logbox-def .close .hatsumi {
 
 #log-inner-wrap {
 	overflow: hidden;
-	margin: 28px 0;
-	height: 130px;
+	margin: 28px 0 18px;
 }
 
-.log-wrap .error {
+.log-wrap label.error {
     display: inline-block;
     color: #ff6a4d;
     font-size: 15px;
@@ -768,12 +767,16 @@ div.logbox-def .close .hatsumi {
     width: 100%;
     font-size: 16px;
     padding: 0 12px;
-    border: 1px solid rgba(0, 0, 0, 0.1) ;
+    border: 1px solid transparent;
     background: rgba(0, 0, 0, 0.05) ;
     border-radius: 2px;
 }
 
+.input-control:hover {
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
 .input-control:focus {
+	border: 1px solid rgba(0, 0, 0, 0.1);
 	background: none;	
 }
 
@@ -967,6 +970,8 @@ div.search.mobi form input {
 .head-img {
 	position: relative;
 	overflow: hidden;
+	-webkit-box-shadow: 0 0 80px rgba(0, 0, 0, 0.15) inset;
+	box-shadow: 0 0 80px rgba(0, 0, 0, 0.15) inset;
 }
 div.head-img>div {
 	position: relative;
@@ -2713,12 +2718,28 @@ body.page-template-page-opswitch {
     padding: 0 0 12px;
 	-webkit-box-shadow: none;
 	box-shadow: none;
+	position: fixed;
+	top: 64px;
+	left: 0;
+	width: 100%;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 #container.tools .tool-box {
 	background: #fff;
 	border: none;
+	border-top: 1px solid rgba(0,0,0,0.1);
+	border-bottom: 1px solid rgba(0,0,0,0.1);
 	margin: 10px 0;
 	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+body.page-template-page-opswitch #main {
+	padding-top: 110px;
+}
+body.page-template-page-opswitch #header.scrolled {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	-o-box-shadow: none;
 	box-shadow: none;
 }
 }
@@ -2856,6 +2877,12 @@ div.head-img>div {
 }
 div.head-img.home>div {
 	padding-bottom: 0;
+}
+#container.tools p.head-tip {
+	top: 57px;
+}
+body.page-template-page-opswitch #main {
+	padding-top: 103px;
 }
 #header {
 	display: block;
