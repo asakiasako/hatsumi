@@ -1,5 +1,14 @@
 $(function() {
+	//initialize fastclick
     FastClick.attach(document.body);
+	
+	//initialize iCheck (Rewrite of Check & Radio)
+	$('input').iCheck({
+		checkboxClass: 'icheckbox_flat-red',
+		radioClass: 'iradio_flat-red'
+	});
+	
+	//login button related
 	$('.mob-logged, .user-login, .mob-menu-bu').click(function(){
 		$('html').addClass('ac-no-scroll');
 		});

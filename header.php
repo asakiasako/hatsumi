@@ -111,8 +111,8 @@
         	<a href="<?php echo home_url('/author/'.$current_user->ID.'/?tab=collect');?>">
             	<li><i class="hatsumi">&#xe62b;</i><p>文章收藏</p></li>
              	</a>
-            <a href="<?php echo home_url('/author/'.$current_user->ID.'/?tab=comment');?>">
-                <li><i class="hatsumi">&#xe62c;</i><p>我的评论</p></li>
+            <a href="<?php echo home_url('/author/'.$current_user->ID.'/?tab=message');?>">
+                <li><i class="hatsumi" style = "position: relative">&#xe62c;<?php if ($ur_msg_count != '') {?><span id="msg-alm" style="right: 0; top: 0;"></span><?php } ?></i><p>消息<span style="color: #ff6a4d"><?php echo $ur_msg_count ?></span></p></li>
                 </a>
             <a href="<?php echo home_url('/author/'.$current_user->ID.'/?tab=profile');?>">
                 <li><i class="hatsumi">&#xe62d;</i><p>修改资料</p></li>

@@ -32,20 +32,20 @@ function hatsumi_scripts(){
         wp_enqueue_script( 'jquery' );
 		
         if( is_home() ){
-		wp_enqueue_script( 'index', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,index.js,view-history.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_script( 'index', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,icheck.min.js,index.js,view-history.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
         }
 		
 		if( is_archive() || is_search() ) {
-		wp_enqueue_script( 'archive', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,index.js,view-history.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_script( 'archive', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,icheck.min.js,index.js,view-history.js',array('jquery'), HATSUMI_VERSION, true);
         }
 
         if( is_page() ){
-		wp_enqueue_script( 'page', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,single.js,OwO.min.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_script( 'page', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,icheck.min.js,single.js,OwO.min.js',array('jquery'), HATSUMI_VERSION, true);
 		wp_enqueue_style('owo', hatsumi_static('css/OwO.min.css'),array(),HATSUMI_VERSION );
 		}
 		
 		if( is_single() ){
-		wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,single.js,view-history.js,single-add.js,highlight.js,OwO.min.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
+		wp_enqueue_script( 'single', home_url('/min/').'?b=wp-content/themes/Hatsumi theme/static/js&f=fastclick.js,icheck.min.js,single.js,view-history.js,single-add.js,highlight.js,OwO.min.js,bdpush.js',array('jquery'), HATSUMI_VERSION, true);
 		wp_enqueue_style('owo', hatsumi_static('css/OwO.min.css'),array(),HATSUMI_VERSION );
 		}
 
